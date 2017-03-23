@@ -1,4 +1,4 @@
-"""webapp URL Configuration
+"""webapps URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -16,6 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from planner import views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    
+    url(r'^$', views.home_page),
+    # url(r'^hello-world$', views.hello_world),
+    # url(r'^hello-world-with-template$', views.hello_world_with_template),
+    # url(r'^greet$', views.greet),
 ]

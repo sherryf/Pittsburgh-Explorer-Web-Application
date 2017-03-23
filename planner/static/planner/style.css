@@ -1,0 +1,937 @@
+html {
+    font-size: 62.5%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body .clear-after:after {
+    display: block;
+    content: "";
+    clear: both;
+    visibility: hidden;
+}
+
+body{
+	min-width: 1020px; */
+    margin: auto;
+    background: #edf1f4;
+    font-family: 'Lato',sans-serif;
+    font-weight: 400;
+    color: #000;
+    height: 100%;
+}
+
+a {
+    color: #fa8c00;
+    text-decoration: none;
+    background: transparent;
+}
+
+ul, ol, li {
+    padding: 0;
+    margin: 0;
+}
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+td, th {
+    padding: 0;
+}
+
+/******************************************************    Header   **********************************************************************/
+/*Header*/
+.page-header {
+    height: 60px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    font-family: 'Lato',sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.428571429;
+    
+}
+
+.header-fixer{
+	position: relative;
+    padding: 0;
+    height: 60px;
+    background-color: #000;
+    top: 0;left: 0;right: 0;
+    transition: background-color .5s ease;
+}
+
+
+.page-header .header-contents {
+    width: 100%;
+    max-width: 1600px;
+    min-width: 1000px;
+    margin: auto;
+    padding: 0 37px;
+}
+
+.page-header .header-logo {
+    float: left;
+    font-size: 1.86em;
+    line-height: 60px;
+    height: 60px;
+    font-weight: 300;
+}
+
+.page-header .header-logo a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.page-header .header-logo .tagline {
+    font-size: .468em;
+    font-weight: 400;
+    left: 10px;
+    position: relative;
+    top: -5px;
+    opacity: .8;
+}
+
+.page-header .page-nav {
+    height: 60px;
+    line-height: 56px;
+    float: right;
+    margin-right: 5%;
+}
+
+.page-header .page-nav ul {
+    display: block;
+    list-style: none;
+    margin: 0;
+    font-size: 1.07em;
+    height: 60px;
+}
+
+.page-header .page-nav.right li {
+    padding: 0;
+}
+
+.page-header .page-nav ul li {
+    margin-left: 50px;
+    padding: 0 5px;
+    float: left;
+    cursor: pointer;
+}
+
+.page-header .page-nav.right li a {
+    display: inline-block;
+    padding: 0 5px;
+}
+
+.page-header a {
+    color: inherit;
+    outline: 0;
+    text-decoration: none;
+}
+
+.page-header .page-nav.right #help-container .help-tips {
+    width: 25px;
+    height: 25px;
+    border: solid 2px;
+    border-radius: 50%;
+    font-family: 'Lato',sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.14;
+    text-align: center;
+    line-height: 21px;
+    vertical-align: middle;
+}
+
+.hidden {
+    display: none!important;
+    visibility: hidden!important;
+}
+
+.resultspage .page-content {
+    width: auto;
+}
+
+body .page-content {
+    /*width: 1000px;*/
+    margin: 0 auto 20px;
+    /*min-height: 500px;*/
+    position: relative;
+    z-index: 0;
+}
+
+body .clear {
+    clear: both;
+}
+
+/****************************************************** Topic Line **********************************************************************/
+/*Topic Line*/
+.planHeaderWrapper {
+    position: relative;
+    z-index: 2;
+}
+
+.plan-header {
+    position: relative;
+    height: 65px;
+    z-index: 1;
+}
+
+.plan-header .plan-header-wrap {
+    height: 65px;
+    background: #fff;
+    -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.plan-header .plan-header-center {
+    margin: auto;
+    width: 1000px;
+    height: 65px;
+}
+
+.plan-nav {
+    float: left;
+    position: relative;
+    height:65px;
+}
+
+.plan-nav ul.tabs {
+    letter-spacing: -0.015em;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 900;
+    list-style: none;
+   	margin:0px;
+}
+
+.plan-nav ul.tabs li:first-child {
+    padding-left: 0;
+    margin-left: 0;
+    padding-right: 0;
+}
+
+.plan-nav ul.tabs li {
+    float: left;
+    font-size: 14px;
+    line-height: 22px;
+    vertical-align: middle;
+    height: 65px;
+    position: relative;
+    margin: 0 15px;
+    padding: 0 10px;
+}
+
+.plan-nav ul.tabs li a {
+    padding: 23px 0 10px 0;
+    display: block;
+    color: #000;
+    font-size: 1em;
+    /*height: 65px;*/
+    outline: 0;
+}
+
+.plan-header ul.right {
+    float: right;
+    display: inline-block;
+    text-transform: uppercase;
+    list-style: none;
+    margin: 0;
+    font-size: .86em;
+    letter-spacing: .1em;
+    height: 65px;
+    line-height: 65px;
+}
+
+ul.plan-actions li.action {
+    text-align: center;
+    float: left;
+    cursor: pointer;
+    position: relative;
+}
+
+.plan-header ul.right li {
+    padding: 0 5px;
+    float: left;
+    cursor: pointer;
+    width: 57px;
+}
+
+ul.plan-actions li.action .share, ul.plan-actions li.action .settings, ul.plan-actions li.action .print, ul.plan-actions li.action .notification {
+    width: 20px;
+   
+    vertical-align: middle;
+    margin-top: -3px;
+    fill: #9b9b9b;
+    height: 65px;
+    padding-top: 10px;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+ul.plan-actions li.action .share, ul.plan-actions li.action .settings, ul.plan-actions li.action .print, ul.plan-actions li.action .notification {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-top: -3px;
+    fill: #9b9b9b;
+}
+
+.iconaction{
+	height:65px;
+	padding-top:15;
+}
+
+/****************************************************** Table **********************************************************************/
+/*table*/
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*Timeline*/
+
+.itinerary-main-pane {
+    float: right;
+    width: 55%;
+    color: #000;
+    margin-top: 20px;
+    background:#fff;
+    padding-right:15px;
+}
+
+.itinerary-main-pane .day-title {
+    padding: 22px 0;
+    height: 70px;
+    border-top: 1px solid #dedede;
+}
+
+.itinerary-main-pane .day-title .day-title-container {
+    float: left;
+    display: inline-block;
+}
+
+.itinerary-main-pane .day-title .day {
+    float: left;
+    width: 145px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.itinerary-main-pane .day-title .day .mon {
+    margin-top: -3px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 2.25;
+    letter-spacing: 1px;
+    color: #9b9b9b;
+}
+
+.itinerary-main-pane .day-title .day .date {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: .75;
+}
+
+.itinerary-main-pane .day-title .day .dow {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 2.25;
+    letter-spacing: 1px;
+}
+
+
+.itinerary-main-pane .day-title .in-wrap {
+    float: left;
+    height: 76px;
+    position: relative;
+}
+
+.itinerary-main-pane .day-title .in-wrap .bar {
+    width: 1px;
+    background-color: #dedede;
+    height: 100%;
+}
+
+.itinerary-main-pane .day-title .stay-area {
+    float: left;
+    margin-left: 20px;
+    height: 60px;
+    max-width: 580px;
+    margin-top: 23px;
+}
+
+.itinerary-main-pane .day-title .stay-area .stayName {
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.33;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 560px;
+}
+
+/*Hop-row*/
+
+.itinerary-hop-row{
+    height: 45	px;
+    padding-left: 145px;
+    padding-top: 13px;
+    padding-bottom:10px;
+    background: #fbfbfb;
+    position: relative;
+    font-size: 13px;
+    color: #9b9b9b;
+}
+
+.itinerary-daybyday-pane .itinerary-row {
+    border-top-style: solid;
+    border-width: 1px;
+    border-color: #dedede;
+    z-index: 0;
+}
+
+.itinerary-daybyday-pane .hop-row .down-arrow {
+    position: absolute;
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    left: 145px;
+    background: #dedede;
+}
+
+.travelTime {
+    font-style: italic;
+    margin-left: 20px;
+    font-weight: 700;
+}
+
+.directions {
+    margin-left: 5px;
+    color: #9b9b9b;
+}
+
+/*Attraction item*/
+.visit-row, .itinerary-daybyday-pane .reserved-row, .itinerary-daybyday-pane .gap-row {
+    background-color: #fff;
+    min-height: 165px;
+    position: relative;
+}
+
+.itinerary-daybyday-pane .itinerary-row {
+    border-top-style: solid;
+    border-width: 1px;
+    border-color: #dedede;
+    z-index: 0;
+}
+
+.visit-row .visit-contents, .itinerary-daybyday-pane .reserved-row .visit-contents, .itinerary-daybyday-pane .gap-row .visit-contents, .itinerary-daybyday-pane .visit-row .reserved-contents, .itinerary-daybyday-pane .reserved-row .reserved-contents, .itinerary-daybyday-pane .gap-row .reserved-contents {
+    background-color: #fff;
+    min-height: 165px;
+    position: relative;
+}
+
+.visit-row .left-col.bar, .itinerary-daybyday-pane .reserved-row .left-col.bar, .itinerary-daybyday-pane .gap-row .left-col.bar {
+    /*border-left: 4px solid #e70000;*/
+}
+
+.visit-row .left-col, .itinerary-daybyday-pane .reserved-row .left-col, .itinerary-daybyday-pane .gap-row .left-col {
+    width: 125px;
+    top: 0;
+    bottom: 0;
+    min-height: 165px;
+    padding: 0 15px;
+    position: absolute;
+}
+
+.visit-row .left-col .visit-time .time, .itinerary-daybyday-pane .reserved-row .left-col .visit-time .time, .itinerary-daybyday-pane .gap-row .left-col .visit-time .time {
+    font-weight: 700;
+    color: #9b9b9b;
+    font-size: 1.7em;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.visit-row .left-col .visit-duration, .itinerary-daybyday-pane .reserved-row .left-col .visit-duration, .itinerary-daybyday-pane .gap-row .left-col .visit-duration {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    right: 15px;
+    -webkit-transform: translate(0,-50%);
+    -ms-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+}
+
+.visit-row .left-col .visit-duration .edit-duration, .itinerary-daybyday-pane .reserved-row .left-col .visit-duration .edit-duration, .itinerary-daybyday-pane .gap-row .left-col .visit-duration .edit-duration {
+    font-weight: 400;
+    position: relative;
+}
+
+.visit-row .left-col .visit-duration .edit-duration .minus, .itinerary-daybyday-pane .reserved-row .left-col .visit-duration .edit-duration .minus, .itinerary-daybyday-pane .gap-row .left-col .visit-duration .edit-duration .minus {
+    color: #fa8c00;
+    cursor: pointer;
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    -webkit-transform: translate(0,-50%);
+    -ms-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.33;
+}
+
+.visit-row .left-col .visit-duration .duration, .itinerary-daybyday-pane .reserved-row .left-col .visit-duration .duration, .itinerary-daybyday-pane .gap-row .left-col .visit-duration .duration {
+    text-align: center;
+    color: #000;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.visit-row .left-col .visit-duration .edit-duration .plus, .itinerary-daybyday-pane .reserved-row .left-col .visit-duration .edit-duration .plus, .itinerary-daybyday-pane .gap-row .left-col .visit-duration .edit-duration .plus {
+    color: #fa8c00;
+    cursor: pointer;
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    -webkit-transform: translate(0,-50%);
+    -ms-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.33;
+}
+
+ .visit-row .right-col, .itinerary-daybyday-pane .reserved-row .right-col, .itinerary-daybyday-pane .gap-row .right-col {
+    padding: 20px;
+    float: left;
+    width: 595px;
+    margin-left: 145px;
+}
+
+.visit-row .right-col .visit-row-medium {
+    position: relative;
+    float: left;
+}
+
+/*right col*/
+
+.visit-row .right-col .detail {
+    float: right;
+    width: 350px;
+    padding:10px;
+}
+
+.visit-row .right-col .detail .name {
+    font-size: 18px;
+    font-weight: 700;
+    float: left;
+    max-width: 300px;
+    margin-top: -7px;
+}
+
+
+ .visit-row .right-col .visit-row-medium .photo {
+    width: 216px;
+    height: 144px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    float:left;
+}
+
+.visit-row .right-col .detail .rating-stars {
+    display: inline-block;
+    top: 2px;
+}
+
+.rating-stars {
+    background: url(data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmln…951%2C8.874%2C0.951%2C9.119%2C1.471L9.119%2C1.471z%22%2F%3E%0A%3C%2Fsvg%3E);
+    width: 85px;
+    height: 16px;
+    background-repeat: repeat-x;
+    position: relative;
+}
+
+.rating-stars .rating-stars-fill {
+    background: url(data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmln…951%2C8.874%2C0.951%2C9.119%2C1.471L9.119%2C1.471z%22%2F%3E%0A%3C%2Fsvg%3E);
+    height: 100%;
+    position: absolute;
+    left: 0;
+}
+
+.visit-row .right-col .detail .review {
+    font-style: italic;
+    display: inline-block;
+    color: #9b9b9b;
+}
+
+ .visit-row .right-col .detail .tags-attractions {
+    margin: 7px 0;
+}
+
+.tags-attractions {
+    word-spacing: 2px;
+}
+
+.tags-attractions .tag {
+    font-size: 10px;
+    line-height: 2.4;
+    letter-spacing: .9px;
+    border: 1px solid #dedede;
+    padding: 3px 8px 3px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #9b9b9b;
+    white-space: nowrap;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.visit-row .right-col .detail .desc {
+    margin: 5px 0;
+    overflow: hidden;
+    line-height: 21px;
+    max-height: 42px;
+}
+
+.visit-row .right-col .detail .desc blockquote {
+    margin: 0;
+    font-size: 15px;
+    border: 0;
+    padding: 0;
+    color: #000;
+}
+
+.visit-row .right-col .detail .tags-and-tours {
+    margin-bottom: -5px;
+}
+
+.visit-row .right-col .detail .tags-and-tours .tours-link {
+    width: 97px;
+    height: 22px;
+    font-size: 15px;
+    font-weight: 700;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: 1.47;
+    text-align: left;
+    color: #fa8c00;
+}
+
+.visit-row .delete, .itinerary-daybyday-pane .reserved-row .delete, .itinerary-daybyday-pane .gap-row .delete {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.visit-row .delete .fa-times, .itinerary-daybyday-pane .reserved-row .delete .fa-times, .itinerary-daybyday-pane .gap-row .delete .fa-times {
+    color: #ccc;
+    cursor: pointer;
+    font-size:20px;
+}
+
+
+
+
+
+
+
+
+.biz-rating-large .rating-large {
+    float: left;
+    margin: -1px 6px 0 0;
+}
+
+.rating, .rating-large, .rating-very-large {
+    position: relative;
+    overflow: hidden;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+www-pkg.css:1
+.i-stars {
+    background-image: url(https://s3-media2.fl.yelpcdn.com/assets/srv0/yelp_design_web/9ad0d1950864/assets/img/stars/stars@2x.png);
+}
+
+.i-stars--regular-4-half {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -384px;
+}
+
+.i-stars {
+    background: url(https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png) no-repeat;
+    background-size: 132px 560px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.offscreen {
+    clip: rect(0 0 0 0);
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.i-stars--small-0{width:82px;height:14px;background-position:0 -420px}
+@media print{.i-stars--small-0 img{left:0;top:-420px}}
+
+.i-stars--small-1{width:82px;height:14px;background-position:0 -434px}
+@media print{.i-stars--small-1 img{left:0;top:-434px}}
+
+.i-stars--small-1-half{width:82px;height:14px;background-position:0 -448px}
+@media print{.i-stars--small-1-half img{left:0;top:-448px}}
+
+.i-stars--small-2{width:82px;height:14px;background-position:0 -462px}
+@media print{.i-stars--small-2 img{left:0;top:-462px}}
+
+.i-stars--small-2-half{width:82px;height:14px;background-position:0 -476px}
+@media print{.i-stars--small-2-half img{left:0;top:-476px}}
+
+.i-stars--small-3{width:82px;height:14px;background-position:0 -490px}
+@media print{.i-stars--small-3 img{left:0;top:-490px}}
+
+.i-stars--small-3-half{width:82px;height:14px;background-position:0 -504px}
+@media print{.i-stars--small-3-half img{left:0;top:-504px}}
+
+.i-stars--small-4{width:82px;height:14px;background-position:0 -518px}
+@media print{.i-stars--small-4 img{left:0;top:-518px}}
+
+.i-stars--small-4-half{width:82px;height:14px;background-position:0 -532px}
+@media print{.i-stars--small-4-half img{left:0;top:-532px}}
+
+.i-stars--small-5{width:82px;height:14px;background-position:0 -546px}
+@media print{.i-stars--small-5 img{left:0;top:-546px}}
+
+/*Suggestion Bar*/
+
+.suggestion-main-pane {
+    float: left;
+    width: 42%;
+    color: #000;
+    margin-top: 20px;
+    background: #fff;
+    padding-right: 15px;
+    /*position:fixed;*/
+}
+
+.search-title {
+    padding: 25px;
+    padding-bottom:15px;
+    border-top: 1px solid #dedede;
+}
+
+ .search-title .title {
+    font-size: 24px;
+    color: #000;
+    font-weight: 900;
+}
+
+.more-filters {
+    /*border-top: 1px solid #dedede;*/
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 10px
+
+}
+
+.more-filters .filter-item {
+    float: left;
+}
+
+.more-filters label {
+    margin: 0;
+}
+
+
+
+
+/*Trial for dropdown*/
+
+.dropdown:first-child{
+	margin-left:25px;
+}
+.dropbtn {
+    margin: 0;
+    background: #fa8c00;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border: 0;
+    padding: 0 15px;
+    font-style: normal;
+    font-weight: 700;
+    outline-color: #c8c8c8;
+    border-radius: 3px;
+    -webkit-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+    height: 32px;
+    line-height: 32px;
+    font-size: 15px;
+    letter-spacing: .3px;
+    outline: 0;
+    margin: 0 10px 0 0;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #9b9b9b;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    padding-left:8px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content .2 {
+	margin-left:100px;
+}
+
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.dropdown a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+
+.down-arrow{
+	background-color: lightgreen;
+	left:0;
+}
+
+/*search result*/
+
+.search-result-pane{
+	overflow: auto;
+	height:235px;
+}
+
+.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width:25%;
+}
+
+
+
+.search-result-pane ul{
+	list-style:none;
+	display:block;
+	overflow:auto;
+}
+
+.search-result-pane li {
+	float:left;
+    padding: 10px;
+    margin: 0;
+    margin-bottom: 15px;
+    /*border-bottom: 1px solid #dedede;*/
+    position: relative;
+    /*display: inline;*/
+    /*text-align: center;*/
+}
+
+.clickable-text {
+    cursor: pointer;
+}
+
+.search-item{
+	width:180px;
+	text-align: center;
+}
+
+.search-pic{
+    width: 180px;
+    height: 120px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 5px;
+}
+
+.attractionTitle {
+	width: 180px;
+	font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+
+.search-item .a{
+	text-decoration: none;
+	color:#000;
+}
+
+
+.alert{
+	margin: 0;
+    background: #9f9f9f;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border: 0;
+    padding: 5px;
+    font-style: normal;
+    font-weight: 700;
+    outline-color: #c8c8c8;
+    border-radius: 3px;
+    -webkit-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+    height: 25px;
+    /*line-height: 32px;*/
+    font-size: 12px;
+    letter-spacing: .3px;
+    outline: 0;
+    margin: 10px 0px 0 0;
+}
+
+/*map*/
+#googleMap{
+	position:relative;
+	border: solid 2px #000;
+	margin:15px;
+	padding:5px;
+	margin-bottom:15px;
+}
+
+
