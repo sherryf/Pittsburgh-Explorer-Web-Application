@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Pittsburgh Planner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+  <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+  <meta name="author" content="FREEHTML5.CO" />
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+    
+  <link rel="stylesheet" href="/static/planner/style.css">
+
+  <!-- Bootstrap  -->
+  <link rel="stylesheet" href="/static/planner/bootstrap.css">
+
+
+  <!-- FOR IE9 below -->
+  <!--[if lt IE 9]>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+
+  </head>
+  <body>
+    <header class="page-header right" id="pageHeader">
+      <div class="header-fixer" style="">
+        <div class="header-contents clear-after">
+          <div class="header-logo">
+            <a href="/"> Pittsburgh Explorer </a>
+              <span class="tagline">Your best weekend planner</span>
+          </div>
+          <nav class="page-nav right">
+          <ul>
+            <li>
+              <a id="newplan" rel="nofollow" href="/placeholder-for-same-page-empty"><span>+ New plan</span></a>
+            </li>
+            <li id="myPlans" data-dropdown-url="/myPlansDropdown" >
+              <a rel="nofollow" href="javascript:void(0);">
+                <span>My plans</span>
+              </a>
+            </li>
+            <li id="userOptions" class="hidden">
+              <a rel="nofollow" href="javascript:void(0);">
+                <span class="name">Profile</span>
+              </a>
+              <div class="hidden">
+                <div id="userDropdown">
+                  <ul>
+                    <li class="logout-button">Log out</li>
+                  </ul>
+                </div>
+                <form id="logoutForm" action="/logout" method="POST"></form></div>
+            </li>
+            <li id="userLogin" class="">
+              <a rel="nofollow" class="login-button" href="/login">
+              <span>Log in</span>
+              </a>
+            </li>
+            <li id="help-container">
+              <!-- <a href="#" class="help-tips"></a> -->
+            </li>
+          </ul>
+        </nav>
+      </div>      
+    </div>
+  </header>
+
+  <div class="fh5co-hero">
+      <div class="fh5co-overlay"></div>
+      <div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: url(https://lonelyplanetimages.imgix.net/mastheads/GettyImages-476815715_high.jpg?sharp=10&vib=20&w=1200);">
+        <div class="desc">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-5 col-md-5">
+                <div class="tabulation animate-box">
+
+                <!-- Input Table -->
+                  <div class="tab-content">
+                   <div role="tabpanel" class="tab-pane active" id="flights">
+                    <div class="row">
+                      <div class="col-xxs-12 col-xs-12 mt alternate">
+                        <div class="input-field">
+                          <label for="date-end">Interested Event</label>
+                          <input type="text" class="form-control" id="target" placeholder="5:30pm"/>
+                        </div>
+                      </div>                      
+                      
+                      <div class="col-xxs-12 col-xs-12 mt alternate">
+                        <div class="input-field">
+                          <label for="date-start">Estimate Date:</label>
+                          <input type="text" class="form-control" id="date-start" placeholder="mm/dd/yyyy"/>
+                        </div>
+                      </div>
+                      <div class="col-xxs-12 col-xs-6 mt alternate">
+                        <div class="input-field">
+                          <label for="date-end">Start Time:</label>
+                          <input type="text" class="form-control" id="time-end" placeholder="9:30am"/>
+                        </div>
+                      </div>
+                      <div class="col-xxs-12 col-xs-6 mt alternate">
+                        <div class="input-field">
+                          <label for="date-end">End Time:</label>
+                          <input type="text" class="form-control" id="time-end" placeholder="5:30pm"/>
+                        </div>
+                      </div>
+
+                      <div class="col-xxs-12 col-xs-6 mt">
+                        <div class="input-field">
+                          <label for="from">Start Street:</label>
+                          <input type="text" class="form-control" id="from-street-1" placeholder="Center"/>
+                        </div>
+                      </div>
+                      <div class="col-xxs-12 col-xs-6 mt">
+                        <div class="input-field">
+                          <label for="from">Start Cross Street:</label>
+                          <input type="text" class="form-control" id="to-street-2" placeholder="Morewood"/>
+                        </div>
+                      </div>
+
+
+                      <div class="col-sm-12 mt">
+                        <section>
+                          <label for="class">Budget:</label>
+                          <select class="cs-select cs-skin-border">
+                            <option value="" disabled selected>Bankrupt</option>
+                            <option value="Bankrupt" >Bankrupt</option>
+                            <option value="economy"  >Economy</option>
+                            <option value="first">Salary Day</option>
+                            
+                          </select>
+                        </section>
+                      </div>
+
+                      <div class="col-xxs-12 col-xs-7 mt">
+                        <section>
+                          <label for="class">Extra Interest:</label>
+                          <select class="cs-select cs-skin-border">
+                            <option value="" disabled selected>Art</option>
+                            <option value="1">Science</option>
+                            <option value="2">Sport</option>
+                            <option value="3">Nature</option>
+                            <option value="4">Art</option>
+                          </select>
+                        </section>
+                      </div>
+                      <div class="col-xxs-12 col-xs-6 mt">
+                        <section>
+                          <label for="class">Group Size:</label>
+                          <select class="cs-select cs-skin-border">
+                            <option value="" disabled selected>1</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                          </select>
+                        </section>
+                      </div>
+                      <div class="col-xs-12">
+                        <input type="submit" class="btn btn-primary btn-block" value="Check out the day Plan">
+                      </div>
+                    </div>
+                   </div>
+                 
+
+                  </div>
+
+
+
+
+                   </div></div>
+
+                                      <div class="desc2 animate-box">
+                    <div class="col-sm-7 col-sm-push-1 col-md-7 col-md-push-1">
+                      
+                      <h2>Plan Your Unique One-day Trip</h2>
+                      <h3>Around Your Favorite Event</h3>
+                      <span class="price">Right here in Pittsburgh</span>
+                  <!-- <p><a class="btn btn-primary btn-lg" href="#">Get Started</a></p> -->
+                    </div></div></div></div></div></div>
+    
+    </div>
+
+  </body>
+</html>
+
