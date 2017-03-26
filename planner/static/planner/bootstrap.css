@@ -1415,7 +1415,7 @@ a {
   text-decoration: none;
 }
 a:hover, a:focus {
-  color: #23527c;
+  color: #74BCF8;
   text-decoration: underline;
 }
 a:focus {
@@ -1990,7 +1990,8 @@ pre code {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
-  padding-right: 15px;
+  padding-right: 25px;
+
 }
 
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
@@ -3975,6 +3976,10 @@ input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
+  margin-top: 15px;
+  margin-left: 20px;
+  margin-right: 25px;
+}
 }
 
 .fade {
@@ -7347,9 +7352,23 @@ section{
   color:white;
 }
 
+.fh5co-cover{
+  height:800px;
+}
 
+.message a{
+  color:white;
+  text-decoration: none;
+}
 
+.message a:hover{
+  color: #74BCF8;
+}
 
+.message{
+  text-align:center;
+  margin-top:10px;
+}
 
 
 
