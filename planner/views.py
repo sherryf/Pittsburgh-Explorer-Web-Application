@@ -33,13 +33,12 @@ from s3 import s3_upload, s3_delete
 def home(request):
 	print("get in function home for search.html")
     
-	return render(request, 'planner/search.html', {})
+   	return render(request, 'planner/search.html', {})
 
-@login_required
 def itinerary(request):
 	print("get in function itinerary for default plan page")
    
-	return render(request, 'planner/home.html', {})
+   	return render(request, 'planner/home.html', {})
 
 @transaction.atomic
 def register(request):

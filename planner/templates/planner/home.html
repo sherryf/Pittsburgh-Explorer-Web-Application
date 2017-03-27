@@ -20,11 +20,7 @@
    		function add_alert(){
 	alert("I am an alert box!");
 }
-
 // Mapping from Xinran
-
-// var selectedMode = "DRIVING";
-// console.log(selectedMode);
 function initMap() {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -32,20 +28,14 @@ function initMap() {
           zoom: 7,
           center: {lat: 41.85, lng: -87.65}
         });
-        // var selectedMode = document.getElementById('mode').value;
-        // console.log(selectedMode);
         var origin = new google.maps.LatLng(37.77493,-122.41942),
             destination = new google.maps.LatLng(37.8006813,-122.444923),
             service = new google.maps.DistanceMatrixService();
-        // document.getElementById('mode').addEventListener("click", myFunction);
-        // var selectedMode = myFunction();
-        // console.log(selectedMode);
-        var selectedMode = document.getElementById("selection").innerHTML;
         service.getDistanceMatrix(
             {
                 origins: [origin],
                 destinations: [destination],
-                travelMode: "DRIVING",
+                travelMode: google.maps.TravelMode.DRIVING,
                 avoidHighways: false,
                 avoidTolls: false
             }, 
@@ -59,36 +49,23 @@ function initMap() {
         // document.getElementById('start').addEventListener('change', onChangeHandler);
         // document.getElementById('end').addEventListener('change', onChangeHandler);
       }
-      function myFunction(value) {
-		// console.log("here");
-		var x = document.getElementById("mode");
-		var y = document.getElementById("selection");
-    	y.innerHTML = x.value;
-		}
       function callback(response, status) {
-        // var dist = document.getElementById("dist");
-
-        // if(status=="OK") {
-        //     value = response.rows[0].elements[0].duration.text;
-        //     dist.innerHTML = "The total time is " + value;
-        // } else {
-        //     alert("Error: " + status);
-        // }
+        var dist = document.getElementById("dist");
+        if(status=="OK") {
+            value = response.rows[0].elements[0].duration.text;
+            dist.innerHTML = "The total time is " + value;
+            console.log(dist.value);
+        } else {
+            alert("Error: " + status);
+        }
       }
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-      	
-      	// var selectedMode = myFunction();
-      	var selectedMode = document.getElementById("selection").innerHTML;
         directionsService.route({
           origin: "37.77493,-122.41942",
           destination: "37.8006813,-122.444923",
-          travelMode: "DRIVING"
-        }, function callback(response, status) {
+          travelMode: 'DRIVING'
+        }, function(response, status) {
           if (status === 'OK') {
-          	var dist = document.getElementById("dist");
-
-          	value = response.rows[0].elements[0].duration.text;
-            dist.innerHTML = "The total time is " + value;
             directionsDisplay.setDirections(response);
           } else {
             window.alert('Directions request failed due to ' + status);
@@ -98,6 +75,7 @@ function initMap() {
    	</script>
 
  </head>
+
 
 <body>
 	<header class="page-header right" id="pageHeader">
@@ -112,7 +90,7 @@ function initMap() {
 				<nav class="page-nav right">
 					<ul>
 	                    <li>
-	                        <a id="newplan" rel="nofollow" href="/placeholder-for-same-page-empty"><span>+ New plan</span></a>
+	                        <a id="newplan" rel="nofollow" href="/planner/"><span>+ New plan</span></a>
 	                    </li>
 	                    <li id="myPlans" data-dropdown-url="/myPlansDropdown" >
 	                        <a rel="nofollow" href="javascript:void(0);">
@@ -132,7 +110,7 @@ function initMap() {
 	                            <form id="logoutForm" action="/logout" method="POST"></form></div>
 	                    </li>
 	                    <li id="userLogin" class="">
-	                                    <a rel="nofollow" class="login-button" href="/login">
+	                                    <a rel="nofollow" class="login-button" href="/planner/login">
 	                                        <span>Log in</span>
 	                                    </a>
 	                    </li>
@@ -154,7 +132,7 @@ function initMap() {
 						<nav id="plan-nav" class="plan-nav">
 							<ul class="tabs clear-after">
 								<li class="tab-overview " data-target="overview">					
-		                        	<a href="http://www.escaperoompgh.com/"> One-day Trip Planned Around Room Escape </a>
+		                        	<a href="http://www.escaperoompgh.com/"> One-day Trip Planned for Museums </a>
 		                    	</li>
 							</ul>
 						</nav>
@@ -193,8 +171,8 @@ function initMap() {
 			<div class="day-title-container destinationDetailsLink clickable-text" data-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/trip-planner-d62308463" data-event-src="day-title">
        			<div class="day">
 		            <div class="mon">Mar</div>
-		            <div class="date">15</div>
-		            <div class="dow">Wed</div>
+		            <div class="date">31</div>
+		            <div class="dow">Fri</div>
 		        </div>
 		        <div class="in-wrap">
 		            <div class="bar"></div>
@@ -207,21 +185,21 @@ function initMap() {
 		<!-- ** Travel-Ban ** -->
 	    <div class="itinerary-hop-row">
 		    <span class="down-arrow"></span>
-		    <span class="travelTime">19&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="http://maps.google.com/maps?saddr=37.77493,-122.41942&amp;daddr=37.826977,-122.42296" target="_blank">Get details &raquo;</a>
+		    <span class="travelTime">52&#8203;min</span>
+		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/''/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/@40.4489007,-80.0236437,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f23c3289e4a9:0x27546d61b6e01184!2m2!1d-79.944537!2d40.454039!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!3e3" target="_blank">Get details &raquo;</a>
         </div>
         <!-- Morning Item -->
         <div class="visit-row">
 		    <div class="visit-contents">
 		        <div class="left-col bar overlap">
 		            <div class="visit-time">
-		                <div class="time">11:30am</div>
+		                <div class="time">10:30am</div>
             		</div>
 		        	<div class="visit-duration">
 		            	<div class="edit-duration">
 		                	<div class="minus reduceTime ">-</div>
 		                    <div class="duration">
-		                        <div class="durationTime">2:30&#8203;h</div>
+		                        <div class="durationTime">1:30&#8203;h</div>
 		                    </div>
 		                    <div class="plus addTime ">+</div>
 		                </div>
@@ -233,35 +211,35 @@ function initMap() {
                 		<div class="copyright-info">
     						<div class="visit-row-medium">
                         		<div class="photo clickable-image attLink"
-                                    style="background-image: url('http://www.escaperoompgh.com/wp-content/uploads/2017/02/Prison-escape-flyer.jpg')" >
+                                    style="background-image: url('https://media-cdn.tripadvisor.com/media/photo-s/0d/a8/31/d3/johnny-angel-s-ginchy.jpg')" >
                                 </div>
                             </div>
                 		</div>
                 		<div class="detail">
-		                    <div class="name attLink clickable-text">Alcatraz Island</div>
+		                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://www.jaginchystuff.com/">Johnny Angel's Ginchy Stuff</a></div>
 		                    <div class="clear"></div>
 
 		                    <div class="rating-stars ">
 							    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
-							    <div class="i-stars i-stars--small-4-half rating-large" title="4.5 star rating">
+							    <div class="i-stars i-stars--small-5 rating-large" title="4.5 star rating">
        							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
    								</div>
 							</div>
 
-							<div class="review">(38,000+ reviews)</div>
+							<div class="review">(12+ reviews)</div>
                 			<div class="tags-attractions">
                     			<span class="tag" data-cat-id="70">Indoor Activity</span>
                             </div>
 
                     		<div class="desc">
                         		<blockquote class="trim-desc" data-more-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/alcatraz-island-a63897243" cite="https://www.inspirock.com/united-states/san-francisco/alcatraz-island-a63897243">
-                            		Tour the infamous former maximum-security penitentiary on Alcatraz Island. Nicknamed The Rock, this small island in the S
+                            		Johnny Angel’s store can be broken up into the museum, home to Johnny’s collection of memorabilia spanning his 50+ years in the music business, and his store
                             	</blockquote>
                     		</div>
 
                     	<div class="tags-and-tours">
-                        	<a class="tours-link text-link attLink jumper" href="/united-states/san-francisco/alcatraz-island-a63897243#Related">
-                                Tours from $30</a>
+                        	<a class="tours-link text-link attLink jumper" href="/">
+                                Free</a>
                         </div>
                 	</div>
                 	<div class="delete">
@@ -275,8 +253,8 @@ function initMap() {
 		<!-- ** Travel-Ban ** -->
 	    <div class="itinerary-hop-row">
 		    <span class="down-arrow"></span>
-		    <span class="travelTime">99&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="http://maps.google.com/maps?saddr=37.77493,-122.41942&amp;daddr=37.826977,-122.42296" target="_blank">Get details &raquo;</a>
+		    <span class="travelTime">60&#8203;min</span>
+		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/@40.4365128,-80.0535015,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!3e3" target="_blank">Get details &raquo;</a>
         </div>
 
         <!-- Lunch Item -->
@@ -284,13 +262,13 @@ function initMap() {
 		    <div class="visit-contents">
 		        <div class="left-col bar overlap">
 		            <div class="visit-time">
-		                <div class="time">11:30am</div>
+		                <div class="time">1:00pm</div>
             		</div>
 		        	<div class="visit-duration">
 		            	<div class="edit-duration">
 		                	<div class="minus reduceTime ">-</div>
 		                    <div class="duration">
-		                        <div class="durationTime">2:30&#8203;h</div>
+		                        <div class="durationTime">1:00&#8203;h</div>
 		                    </div>
 		                    <div class="plus addTime ">+</div>
 		                </div>
@@ -307,7 +285,7 @@ function initMap() {
                             </div>
                 		</div>
                 		<div class="detail">
-		                    <div class="name attLink clickable-text">The Alcove</div>
+		                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://places.singleplatform.com/the-alcove-2/menu?ref=google">The Alcove</a></div>
 		                    <div class="clear"></div>
 
 		                    <div class="rating-stars ">
@@ -329,7 +307,7 @@ function initMap() {
                     		</div>
 
                     	<div class="tags-and-tours">
-                        	<a class="tours-link text-link attLink jumper" href="/united-states/san-francisco/alcatraz-island-a63897243#Related">
+                        	<a class="tours-link text-link attLink jumper" href="/">
                                 Under $10</a>
                         </div>
                 	</div>
@@ -344,8 +322,8 @@ function initMap() {
 		<!-- ** Travel-Ban ** -->
 	    <div class="itinerary-hop-row">
 		    <span class="down-arrow"></span>
-		    <span class="travelTime">19&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="http://maps.google.com/maps?saddr=37.77493,-122.41942&amp;daddr=37.826977,-122.42296" target="_blank">Get details &raquo;</a>
+		    <span class="travelTime">60&#8203;min</span>
+		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/Carnegie+Museum+of+Natural+History,+Carnegie+Museums+of+Pittsburgh,+4400+Forbes+Ave,+Pittsburgh,+PA+15213/@40.4318721,-80.0310059,13z/data=!3m2!4b1!5s0x8834f226f188e875:0xa91352f532470d90!4m14!4m13!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!1m5!1m1!1s0x8834f2264fbf8605:0x8968e7e4db84efc2!2m2!1d-79.950705!2d40.44345!3e3" target="_blank">Get details &raquo;</a>
         </div>
 
 		<!-- Afternoon Item -->
@@ -353,13 +331,13 @@ function initMap() {
 		    <div class="visit-contents">
 		        <div class="left-col bar overlap">
 		            <div class="visit-time">
-		                <div class="time">2:30am</div>
+		                <div class="time">3:00pm</div>
             		</div>
 		        	<div class="visit-duration">
 		            	<div class="edit-duration">
 		                	<div class="minus reduceTime ">-</div>
 		                    <div class="duration">
-		                        <div class="durationTime">2:30&#8203;h</div>
+		                        <div class="durationTime">2:00&#8203;h</div>
 		                    </div>
 		                    <div class="plus addTime ">+</div>
 		                </div>
@@ -376,7 +354,7 @@ function initMap() {
                             </div>
                 		</div>
                 		<div class="detail">
-		                    <div class="name attLink clickable-text">Carnegie Museum of Natural History</div>
+		                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://www.carnegiemnh.org/">Carnegie Museum of Natural History</a></div>
 		                    <div class="clear"></div>
 
 		                    <div class="rating-stars ">
@@ -398,7 +376,7 @@ function initMap() {
                     		</div>
 
                     	<div class="tags-and-tours">
-                        	<a class="tours-link text-link attLink jumper" href="/united-states/san-francisco/alcatraz-island-a63897243#Related">
+                        	<a class="tours-link text-link attLink jumper" href="/">
                                 Free</a>
                         </div>
                 	</div>
@@ -413,8 +391,8 @@ function initMap() {
 		<!-- ** Travel-Ban ** -->
 	    <div class="itinerary-hop-row">
 		    <span class="down-arrow"></span>
-		    <span class="travelTime">19&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="http://maps.google.com/maps?saddr=37.77493,-122.41942&amp;daddr=37.826977,-122.42296" target="_blank">Get details &raquo;</a>
+		    <span class="travelTime">12&#8203;min</span>
+		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/Carnegie+Museum+of+Natural+History,+Carnegie+Museums+of+Pittsburgh,+4400+Forbes+Ave,+Pittsburgh,+PA+15213/''/@40.448577,-79.9568605,15z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f2264fbf8605:0x8968e7e4db84efc2!2m2!1d-79.950705!2d40.44345!1m5!1m1!1s0x8834f23c3289e4a9:0x27546d61b6e01184!2m2!1d-79.944537!2d40.454039!3e3" target="_blank">Get details &raquo;</a>
         </div>
 
 		<!-- End time record -->
@@ -423,7 +401,7 @@ function initMap() {
        			<div class="day">
        			<!-- <p>  </p> -->
 		            <div class="mon">Total</div>
-		            <div class="date">$45</div>
+		            <div class="date">$15</div>
 		            <!-- <div class="dow">Wed</div> -->
 		        </div>
 		        <div class="in-wrap">
@@ -511,11 +489,11 @@ function initMap() {
 		    <li class="attraction clear-after">
 	    		<div class="search-item">
     				<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
-    					<div class="search-pic" style="background-image:url('http://www.warhol.org/wp-content/uploads/2016/12/fascade_banner.png')">
+    					<div class="search-pic" style="background-image:url('https://media-cdn.tripadvisor.com/media/photo-s/09/c1/cc/be/center-for-postnatural.jpg')">
                         </div>
                     </span>
                     <div style="height:40px;"> 
-                        <span class="attractionTitle" datalink="http://www.warhol.org/visit/">Andy Warhol Museum</span>
+                        <span class="attractionTitle" datalink="http://www.postnatural.org/">Center for PostNatural History</span>
                 	</div>
                 		<div>
             				<button onclick="add_alert()" class="alert" id>Add</button>
@@ -526,10 +504,10 @@ function initMap() {
             <li class="attraction clear-after" style="float:left">
     			<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
         			<div class="search-item">
-    					<div class="search-pic" style="background-image:url('https://media-cdn.tripadvisor.com/media/photo-s/02/f5/5e/08/mattress-factory.jpg')">
+    					<div class="search-pic" style="background-image:url('https://places2explore.files.wordpress.com/2010/07/cathedral-of-learn-hdr-011.jpg?w=1280')">
                         </div>
                         <div style="height:40px;"> 
-                        <span class="attractionTitle" datalink="http://www.mattress.org/">Mattress Factories</span>
+                        <span class="attractionTitle" datalink="http://www.nationalityrooms.pitt.edu/about/cathedral-learning">Cathedral of Learning</span>
                 		</div>
                 		<div>
             				<button onclick="add_alert()" class="alert" id>Add</button>
@@ -542,14 +520,13 @@ function initMap() {
 
 <div id="floating-panel">
     <b>Mode of Travel: </b>
-    <select id="mode" onchange="myFunction(this.selectedMode)">
+    <select id="mode">
       <option value="DRIVING">By car</option>
       <option value="WALKING">On foot</option>
       <option value="BICYCLING">By bicycle</option>
       <option value="TRANSIT">By public transport</option>
     </select>
 </div>
-<div id = "selection"></div>
 <div id = "dist" style="font-size: 20px"></div>
 <div id="googleMap" style="height:500px;margin:0px;border:0px;padding:0px">
 </div>
