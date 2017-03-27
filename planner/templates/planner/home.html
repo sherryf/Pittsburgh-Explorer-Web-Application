@@ -22,6 +22,9 @@
 }
 
 // Mapping from Xinran
+
+// var selectedMode = "DRIVING";
+// console.log(selectedMode);
 function initMap() {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -29,14 +32,20 @@ function initMap() {
           zoom: 7,
           center: {lat: 41.85, lng: -87.65}
         });
+        // var selectedMode = document.getElementById('mode').value;
+        // console.log(selectedMode);
         var origin = new google.maps.LatLng(37.77493,-122.41942),
             destination = new google.maps.LatLng(37.8006813,-122.444923),
             service = new google.maps.DistanceMatrixService();
+        // document.getElementById('mode').addEventListener("click", myFunction);
+        // var selectedMode = myFunction();
+        // console.log(selectedMode);
+        var selectedMode = document.getElementById("selection").innerHTML;
         service.getDistanceMatrix(
             {
                 origins: [origin],
                 destinations: [destination],
-                travelMode: google.maps.TravelMode.DRIVING,
+                travelMode: "DRIVING",
                 avoidHighways: false,
                 avoidTolls: false
             }, 
@@ -50,24 +59,36 @@ function initMap() {
         // document.getElementById('start').addEventListener('change', onChangeHandler);
         // document.getElementById('end').addEventListener('change', onChangeHandler);
       }
+      function myFunction(value) {
+		// console.log("here");
+		var x = document.getElementById("mode");
+		var y = document.getElementById("selection");
+    	y.innerHTML = x.value;
+		}
       function callback(response, status) {
-        var dist = document.getElementById("dist");
+        // var dist = document.getElementById("dist");
 
-        if(status=="OK") {
-            value = response.rows[0].elements[0].duration.text;
-            dist.innerHTML = "The total time is " + value;
-            console.log(dist.value);
-        } else {
-            alert("Error: " + status);
-        }
+        // if(status=="OK") {
+        //     value = response.rows[0].elements[0].duration.text;
+        //     dist.innerHTML = "The total time is " + value;
+        // } else {
+        //     alert("Error: " + status);
+        // }
       }
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+      	
+      	// var selectedMode = myFunction();
+      	var selectedMode = document.getElementById("selection").innerHTML;
         directionsService.route({
           origin: "37.77493,-122.41942",
           destination: "37.8006813,-122.444923",
-          travelMode: 'DRIVING'
-        }, function(response, status) {
+          travelMode: "DRIVING"
+        }, function callback(response, status) {
           if (status === 'OK') {
+          	var dist = document.getElementById("dist");
+
+          	value = response.rows[0].elements[0].duration.text;
+            dist.innerHTML = "The total time is " + value;
             directionsDisplay.setDirections(response);
           } else {
             window.alert('Directions request failed due to ' + status);
@@ -521,13 +542,14 @@ function initMap() {
 
 <div id="floating-panel">
     <b>Mode of Travel: </b>
-    <select id="mode">
+    <select id="mode" onchange="myFunction(this.selectedMode)">
       <option value="DRIVING">By car</option>
       <option value="WALKING">On foot</option>
       <option value="BICYCLING">By bicycle</option>
       <option value="TRANSIT">By public transport</option>
     </select>
 </div>
+<div id = "selection"></div>
 <div id = "dist" style="font-size: 20px"></div>
 <div id="googleMap" style="height:500px;margin:0px;border:0px;padding:0px">
 </div>
