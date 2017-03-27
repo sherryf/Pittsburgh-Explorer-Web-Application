@@ -1,0 +1,39 @@
+{% extends "planner/base_login.html" %}
+
+{% load addcss %}
+
+{% block form %}
+	<form class="login-form" method="POST" action="{% url 'login' %}">
+<!-- Input Table -->             
+    {% for field in form.visible_fields %}
+      <div class="col-xxs-12 col-xs-12 mt alternate">
+        <div class="input-field">
+          <label for="date-end">{{field.label_tag}}</label>
+        <div>{{field|addcss:"form-control"}} </div>
+        </div>
+      </div> 
+
+    {% endfor %}
+
+    <input type="hidden" name="next" value="{{ next }}" />
+
+    <!-- message ouptut -->   
+    {% for field in form.visible_fields %}
+      {% for error in field.errors %}
+        <p class="message">{{ error }}</p>
+      {% endfor %}
+    {% endfor %}
+
+    <div class="col-xs-11">
+      <input type="submit" class="btn btn-primary btn-block" value="Login">
+    </div>
+
+    <div class="col-xs-12">
+      <p class="message">Not registered? <a href="/planner/register">Create an account</a></p>
+    </div>
+
+    {% csrf_token %}
+    </form>
+          
+{% endblock %}
+ 

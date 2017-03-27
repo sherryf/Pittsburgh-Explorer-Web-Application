@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+ <html> 
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> {% block title %} PittExp {% endblock %} </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+  <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+  <!-- Theme CSS -->  
+  <link id="theme-style" rel="stylesheet" href="/static/planner/style.css">
+  <link rel="stylesheet" href="/static/planner/bootstrap.css">
+
+  </head>
+
+  <body>
+    <header class="page-header right" id="pageHeader">
+      <div class="header-fixer" style="">
+        <div class="header-contents clear-after">
+          
+          <div class="header-logo">
+            <a href="/"> Pittsburgh Explorer </a>
+              <span class="tagline">Your best one-day planner</span>
+          </div>
+
+          <nav class="page-nav right">
+          <ul>
+            <li>
+              <a id="newplan" rel="nofollow" href="/planner/"><span>+ New plan</span></a>
+            </li>
+
+            {% block user-info %}
+            {% endblock %}
+                       
+            <li id="help-container">
+              <!-- <a href="#" class="help-tips"></a> -->
+            </li>
+          </ul>
+        </nav>
+      </div>      
+    </div>
+  </header>
+
+  {% block content %}
+          {% endblock %}
+
+</body>
+</html>
