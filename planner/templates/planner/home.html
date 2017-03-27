@@ -14,8 +14,8 @@
    	<!-- js -->
    	<script src="/static/planner/main.js" type="text/javascript"></script>
    	<!-- map -->
-   	<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZn0a_BJUnRLk4BVYMeY_uEl8EHXKPKig&callback=initMap"></script>
+   	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZn0a_BJUnRLk4BVYMeY_uEl8EHXKPKig&callback=initMap"
+  type="text/javascript"></script>
    	<script>
    		function add_alert(){
 	alert("I am an alert box!");
@@ -29,6 +29,19 @@ function initMap() {
           zoom: 7,
           center: {lat: 41.85, lng: -87.65}
         });
+        var origin = new google.maps.LatLng(37.77493,-122.41942),
+            destination = new google.maps.LatLng(37.8006813,-122.444923),
+            service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(
+            {
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.DRIVING,
+                avoidHighways: false,
+                avoidTolls: false
+            }, 
+            callback
+        );
         directionsDisplay.setMap(map);
         calculateAndDisplayRoute(directionsService, directionsDisplay);
         // var onChangeHandler = function() {
@@ -37,7 +50,17 @@ function initMap() {
         // document.getElementById('start').addEventListener('change', onChangeHandler);
         // document.getElementById('end').addEventListener('change', onChangeHandler);
       }
+      function callback(response, status) {
+        var dist = document.getElementById("dist");
 
+        if(status=="OK") {
+            value = response.rows[0].elements[0].duration.text;
+            dist.innerHTML = "The total time is " + value;
+            console.log(dist.value);
+        } else {
+            alert("Error: " + status);
+        }
+      }
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
           origin: "37.77493,-122.41942",
@@ -496,6 +519,16 @@ function initMap() {
 		</ul>
 </div>
 
+<div id="floating-panel">
+    <b>Mode of Travel: </b>
+    <select id="mode">
+      <option value="DRIVING">By car</option>
+      <option value="WALKING">On foot</option>
+      <option value="BICYCLING">By bicycle</option>
+      <option value="TRANSIT">By public transport</option>
+    </select>
+</div>
+<div id = "dist" style="font-size: 20px"></div>
 <div id="googleMap" style="height:500px;margin:0px;border:0px;padding:0px">
 </div>
 
