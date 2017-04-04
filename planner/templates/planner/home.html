@@ -2,21 +2,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>3 days in San Francisco Itinerary in March • Inspirock</title>
-            <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Theme CSS -->  
-    <link id="theme-style" rel="stylesheet" href="/static/planner/style.css">
-    <!-- add icon -->
-   	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-   	
-   	<!-- js -->
-   	<script src="/static/planner/main.js" type="text/javascript"></script>
-   	<!-- map -->
-   	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZn0a_BJUnRLk4BVYMeY_uEl8EHXKPKig&callback=initMap"
+        <!-- Theme CSS --> 
+        <!-- <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'> -->
+        <link id="theme-style" rel="stylesheet" href="/static/planner/style.css">
+
+        <!-- js -->
+		<script src="/static/planner/main.js" type="text/javascript"></script>
+		<!-- add icon -->
+   		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	   	<!-- map -->
+   	    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZn0a_BJUnRLk4BVYMeY_uEl8EHXKPKig&callback=initMap"
   type="text/javascript"></script>
-   	<script>
+
+  		<script>
    		function add_alert(){
 	alert("I am an alert box!");
 }
@@ -74,8 +76,8 @@ function initMap() {
       }
    	</script>
 
- </head>
 
+</head>
 
 <body>
 	<header class="page-header right" id="pageHeader">
@@ -84,13 +86,13 @@ function initMap() {
 			<div class="header-contents clear-after">
 				<div class="header-logo">
 					<a href="/"> Pittsburgh Explorer </a>
-                	<span class="tagline">Your best weekend planner</span>
+                	<span class="tagline">Your best one-day planner</span>
 				</div>
 
 				<nav class="page-nav right">
 					<ul>
 	                    <li>
-	                        <a id="newplan" rel="nofollow" href="/planner/"><span>+ New plan</span></a>
+	                        <a id="newplan" rel="nofollow" href="/placeholder-for-same-page-empty"><span>+ New plan</span></a>
 	                    </li>
 	                    <li id="myPlans" data-dropdown-url="/myPlansDropdown" >
 	                        <a rel="nofollow" href="javascript:void(0);">
@@ -110,7 +112,7 @@ function initMap() {
 	                            <form id="logoutForm" action="/logout" method="POST"></form></div>
 	                    </li>
 	                    <li id="userLogin" class="">
-	                                    <a rel="nofollow" class="login-button" href="/planner/login">
+	                                    <a rel="nofollow" class="login-button" href="/login">
 	                                        <span>Log in</span>
 	                                    </a>
 	                    </li>
@@ -123,7 +125,6 @@ function initMap() {
 		</div>
 	</header>
 
-
 	<div class="page-content  clear" id="pageContent" >
 		<div class ="planHeaderWrapper" >
 			<header class="plan-header" id="planHeader" >
@@ -132,7 +133,7 @@ function initMap() {
 						<nav id="plan-nav" class="plan-nav">
 							<ul class="tabs clear-after">
 								<li class="tab-overview " data-target="overview">					
-		                        	<a href="http://www.escaperoompgh.com/"> One-day Trip Planned for Museums </a>
+		                        	<a href="http://www.escaperoompgh.com/"> One-day Trip Planned Around Room Escape </a>
 		                    	</li>
 							</ul>
 						</nav>
@@ -163,48 +164,60 @@ function initMap() {
 				</div>
 			</header>
 		</div>
-
+		
 	<div id="itineraryMainPane" class="itinerary-main-pane "> 
 	<div id="daybyday" >
-		<!-- Start time record -->
+	<!-- Start time record -->
 		<div class="day-title clearfix ">
 			<div class="day-title-container destinationDetailsLink clickable-text" data-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/trip-planner-d62308463" data-event-src="day-title">
-       			<div class="day">
+
+			<div class="day">
 		            <div class="mon">Mar</div>
-		            <div class="date">31</div>
-		            <div class="dow">Fri</div>
+		            <div class="date">15</div>
+		            <div class="dow">Wed</div>
+	        </div>
+
+	        <div class="in-wrap">
+	            <div class="bar"></div>
+	        </div>
+
+	        <div class="stay-area">
+	            <div class="stayName">Day starts at 9:30am at Center&Morewood </div>
+	        </div>
+
+	        </div>
+		</div>	
+	</div>
+
+	<!-- Drag&Drop  -->
+	<section>
+	<h2 class="hidden"><em>toJSON</em> <span id="jsonResults"></span></h2>
+		<ul class="sortable list">
+			<li id="item1">
+
+				<!-- ** Travel-Ban ** -->
+			    <div class="itinerary-hop-row">
+				    <span class="down-arrow"></span>
+				    <span class="travelTime">52&#8203;min</span>
+				    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/''/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/@40.4489007,-80.0236437,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f23c3289e4a9:0x27546d61b6e01184!2m2!1d-79.944537!2d40.454039!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!3e3" target="_blank">Get details &raquo;</a>
 		        </div>
-		        <div class="in-wrap">
-		            <div class="bar"></div>
-		        </div>
-		        <div class="stay-area">
-		            <div class="stayName">Day starts at 9:30am at Center&Morewood </div>
-		        </div>
-		    </div>
-		</div>
-		<!-- ** Travel-Ban ** -->
-	    <div class="itinerary-hop-row">
-		    <span class="down-arrow"></span>
-		    <span class="travelTime">52&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/''/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/@40.4489007,-80.0236437,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f23c3289e4a9:0x27546d61b6e01184!2m2!1d-79.944537!2d40.454039!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!3e3" target="_blank">Get details &raquo;</a>
-        </div>
-        <!-- Morning Item -->
-        <div class="visit-row">
-		    <div class="visit-contents">
-		        <div class="left-col bar overlap">
-		            <div class="visit-time">
-		                <div class="time">10:30am</div>
-            		</div>
-		        	<div class="visit-duration">
-		            	<div class="edit-duration">
-		                	<div class="minus reduceTime ">-</div>
-		                    <div class="duration">
-		                        <div class="durationTime">1:30&#8203;h</div>
-		                    </div>
-		                    <div class="plus addTime ">+</div>
-		                </div>
-		        	</div>
-		        </div>
+		        <!-- Morning Item -->
+		        <div class="visit-row">
+				    <div class="visit-contents">
+				        <div class="left-col bar overlap">
+				            <div class="visit-time">
+				                <div class="time">10:30am</div>
+		            		</div>
+				        	<div class="visit-duration">
+				            	<div class="edit-duration">
+				                	<div class="minus reduceTime ">-</div>
+				                    <div class="duration">
+				                        <div class="durationTime">1:30&#8203;h</div>
+				                    </div>
+				                    <div class="plus addTime ">+</div>
+				                </div>
+				        	</div>
+				        </div>
 
 		        <div class="right-col">
             		<div>
@@ -244,149 +257,159 @@ function initMap() {
                 	</div>
                 	<div class="delete">
                         <div class="fa fa-times">x</div>
-                    </div>
-                </div>
-        	</div>
-		</div>
-		</div>
-
-		<!-- ** Travel-Ban ** -->
-	    <div class="itinerary-hop-row">
-		    <span class="down-arrow"></span>
-		    <span class="travelTime">60&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/@40.4365128,-80.0535015,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!3e3" target="_blank">Get details &raquo;</a>
-        </div>
-
-        <!-- Lunch Item -->
-        <div class="visit-row">
-		    <div class="visit-contents">
-		        <div class="left-col bar overlap">
-		            <div class="visit-time">
-		                <div class="time">1:00pm</div>
-            		</div>
-		        	<div class="visit-duration">
-		            	<div class="edit-duration">
-		                	<div class="minus reduceTime ">-</div>
-		                    <div class="duration">
-		                        <div class="durationTime">1:00&#8203;h</div>
 		                    </div>
-		                    <div class="plus addTime ">+</div>
 		                </div>
 		        	</div>
+				</div>
+				</div>
+
+			</li>
+
+			<li id="item2">
+				<!-- ** Travel-Ban ** -->
+			    <div class="itinerary-hop-row">
+				    <span class="down-arrow"></span>
+				    <span class="travelTime">60&#8203;min</span>
+				    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/@40.4365128,-80.0535015,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!3e3" target="_blank">Get details &raquo;</a>
 		        </div>
 
-		        <div class="right-col">
-            		<div>
-                		<div class="copyright-info">
-    						<div class="visit-row-medium">
-                        		<div class="photo clickable-image attLink"
-                                    style="background-image: url('https://s3-media2.fl.yelpcdn.com/bphoto/kR0bw8t0EJYfIEWf_RqhDA/o.jpg')" >
-                                </div>
-                            </div>
-                		</div>
-                		<div class="detail">
-		                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://places.singleplatform.com/the-alcove-2/menu?ref=google">The Alcove</a></div>
-		                    <div class="clear"></div>
+		        <!-- Lunch Item -->
+		        <div class="visit-row">
+				    <div class="visit-contents">
+				        <div class="left-col bar overlap">
+				            <div class="visit-time">
+				                <div class="time">1:00pm</div>
+		            		</div>
+				        	<div class="visit-duration">
+				            	<div class="edit-duration">
+				                	<div class="minus reduceTime ">-</div>
+				                    <div class="duration">
+				                        <div class="durationTime">1:00&#8203;h</div>
+				                    </div>
+				                    <div class="plus addTime ">+</div>
+				                </div>
+				        	</div>
+				        </div>
 
-		                    <div class="rating-stars ">
-							    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
-							    <div class="i-stars i-stars--small-5 rating-large" title="5 star rating">
-       							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
-   								</div>
-							</div>
+				        <div class="right-col">
+		            		<div>
+		                		<div class="copyright-info">
+		    						<div class="visit-row-medium">
+		                        		<div class="photo clickable-image attLink"
+		                                    style="background-image: url('https://s3-media2.fl.yelpcdn.com/bphoto/kR0bw8t0EJYfIEWf_RqhDA/o.jpg')" >
+		                                </div>
+		                            </div>
+		                		</div>
+		                		<div class="detail">
+				                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://places.singleplatform.com/the-alcove-2/menu?ref=google">The Alcove</a></div>
+				                    <div class="clear"></div>
 
-							<div class="review">(10 reviews)</div>
-                			<div class="tags-attractions">
-                    			<span class="tag" data-cat-id="70">Restaurant</span>
-                            </div>
+				                    <div class="rating-stars ">
+									    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
+									    <div class="i-stars i-stars--small-5 rating-large" title="5 star rating">
+		       							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
+		   								</div>
+									</div>
 
-                    		<div class="desc">
-                        		<blockquote class="trim-desc" data-more-link="https://www.yelp.com/biz/the-alcove-pittsburgh" cite="https://www.yelp.com/biz/the-alcove-pittsburgh">
-                            		Sandwiches, Diners, Delis
-                            	</blockquote>
-                    		</div>
+									<div class="review">(10 reviews)</div>
+		                			<div class="tags-attractions">
+		                    			<span class="tag" data-cat-id="70">Restaurant</span>
+		                            </div>
 
-                    	<div class="tags-and-tours">
-                        	<a class="tours-link text-link attLink jumper" href="/">
-                                Under $10</a>
-                        </div>
-                	</div>
-                	<div class="delete"> 
-                        <div class="fa fa-times">x</div>
-                    </div>
-                </div>
-        	</div>
-		</div>
-		</div>
+		                    		<div class="desc">
+		                        		<blockquote class="trim-desc" data-more-link="https://www.yelp.com/biz/the-alcove-pittsburgh" cite="https://www.yelp.com/biz/the-alcove-pittsburgh">
+		                            		Sandwiches, Diners, Delis
+		                            	</blockquote>
+		                    		</div>
 
-		<!-- ** Travel-Ban ** -->
-	    <div class="itinerary-hop-row">
-		    <span class="down-arrow"></span>
-		    <span class="travelTime">60&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/Carnegie+Museum+of+Natural+History,+Carnegie+Museums+of+Pittsburgh,+4400+Forbes+Ave,+Pittsburgh,+PA+15213/@40.4318721,-80.0310059,13z/data=!3m2!4b1!5s0x8834f226f188e875:0xa91352f532470d90!4m14!4m13!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!1m5!1m1!1s0x8834f2264fbf8605:0x8968e7e4db84efc2!2m2!1d-79.950705!2d40.44345!3e3" target="_blank">Get details &raquo;</a>
-        </div>
-
-		<!-- Afternoon Item -->
-        <div class="visit-row">
-		    <div class="visit-contents">
-		        <div class="left-col bar overlap">
-		            <div class="visit-time">
-		                <div class="time">3:00pm</div>
-            		</div>
-		        	<div class="visit-duration">
-		            	<div class="edit-duration">
-		                	<div class="minus reduceTime ">-</div>
-		                    <div class="duration">
-		                        <div class="durationTime">2:00&#8203;h</div>
+		                    	<div class="tags-and-tours">
+		                        	<a class="tours-link text-link attLink jumper" href="/">
+		                                Under $10</a>
+		                        </div>
+		                	</div>
+		                	<div class="delete"> 
+		                        <div class="fa fa-times">x</div>
 		                    </div>
-		                    <div class="plus addTime ">+</div>
 		                </div>
 		        	</div>
+				</div>
+				</div>
+
+			</li>
+
+			<li id="item3">
+				<!-- ** Travel-Ban ** -->
+			    <div class="itinerary-hop-row">
+				    <span class="down-arrow"></span>
+				    <span class="travelTime">60&#8203;min</span>
+				    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/Carnegie+Museum+of+Natural+History,+Carnegie+Museums+of+Pittsburgh,+4400+Forbes+Ave,+Pittsburgh,+PA+15213/@40.4318721,-80.0310059,13z/data=!3m2!4b1!5s0x8834f226f188e875:0xa91352f532470d90!4m14!4m13!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!1m5!1m1!1s0x8834f2264fbf8605:0x8968e7e4db84efc2!2m2!1d-79.950705!2d40.44345!3e3" target="_blank">Get details &raquo;</a>
 		        </div>
 
-		        <div class="right-col">
-            		<div>
-                		<div class="copyright-info">
-    						<div class="visit-row-medium">
-                        		<div class="photo clickable-image attLink"
-                                    style="background-image: url('https://thefriendlygiraffe.files.wordpress.com/2012/09/dsc_0243.jpg?w=1378&h=916')" >
-                                </div>
-                            </div>
-                		</div>
-                		<div class="detail">
-		                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://www.carnegiemnh.org/">Carnegie Museum of Natural History</a></div>
-		                    <div class="clear"></div>
+			<!-- Afternoon Item -->
+	        <div class="visit-row">
+			    <div class="visit-contents">
+			        <div class="left-col bar overlap">
+			            <div class="visit-time">
+			                <div class="time">3:00pm</div>
+	            		</div>
+			        	<div class="visit-duration">
+			            	<div class="edit-duration">
+			                	<div class="minus reduceTime ">-</div>
+			                    <div class="duration">
+			                        <div class="durationTime">2:00&#8203;h</div>
+			                    </div>
+			                    <div class="plus addTime ">+</div>
+			                </div>
+			        	</div>
+			        </div>
 
-		                    <div class="rating-stars ">
-							    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
-							    <div class="i-stars i-stars--small-4-half rating-large" title="4.5 star rating">
-       							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
-   								</div>
-							</div>
+			        <div class="right-col">
+	            		<div>
+	                		<div class="copyright-info">
+	    						<div class="visit-row-medium">
+	                        		<div class="photo clickable-image attLink"
+	                                    style="background-image: url('https://thefriendlygiraffe.files.wordpress.com/2012/09/dsc_0243.jpg?w=1378&h=916')" >
+	                                </div>
+	                            </div>
+	                		</div>
+	                		<div class="detail">
+			                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://www.carnegiemnh.org/">Carnegie Museum of Natural History</a></div>
+			                    <div class="clear"></div>
 
-							<div class="review">(1,169+ reviews)</div>
-                			<div class="tags-attractions">
-                    			<span class="tag" data-cat-id="70">Museum</span>
-                            </div>
+			                    <div class="rating-stars ">
+								    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
+								    <div class="i-stars i-stars--small-4-half rating-large" title="4.5 star rating">
+	       							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
+	   								</div>
+								</div>
 
-                    		<div class="desc">
-                        		<blockquote class="trim-desc" data-more-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/alcatraz-island-a63897243" cite="https://www.inspirock.com/united-states/san-francisco/alcatraz-island-a63897243">
-                            		Dig for bones in Bonehunters Quarry, get hands-on with real and replica specimens in Discovery Basecamp.
-                            	</blockquote>
-                    		</div>
+								<div class="review">(1,169+ reviews)</div>
+	                			<div class="tags-attractions">
+	                    			<span class="tag" data-cat-id="70">Museum</span>
+	                            </div>
 
-                    	<div class="tags-and-tours">
-                        	<a class="tours-link text-link attLink jumper" href="/">
-                                Free</a>
-                        </div>
-                	</div>
-                	<div class="delete">
-                        <div class="fa fa-times">x</div>
-                    </div>
-                </div>
-        	</div>
-		</div>
-		</div>
+	                    		<div class="desc">
+	                        		<blockquote class="trim-desc" data-more-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/alcatraz-island-a63897243" cite="https://www.inspirock.com/united-states/san-francisco/alcatraz-island-a63897243">
+	                            		Dig for bones in Bonehunters Quarry, get hands-on with real and replica specimens in Discovery Basecamp.
+	                            	</blockquote>
+	                    		</div>
+
+	                    		<div class="tags-and-tours">
+		                        	<a class="tours-link text-link attLink jumper" href="/">
+		                                Free</a>
+		                        </div>
+	                		</div>
+		                	<div class="delete">
+		                        <div class="fa fa-times">x</div>
+		                    </div>
+		                </div>
+		        	</div>
+				</div>
+				</div>
+			</li>
+
+			</ul>
+		</section>
 
 		<!-- ** Travel-Ban ** -->
 	    <div class="itinerary-hop-row">
@@ -453,92 +476,90 @@ function initMap() {
 	                <label class="hide-outside" for="hideOutside-625">Hide selected items</label>
 	        </div>
 	    </div>
-<div class="search-result-pane">
-	    <ul class='attraction clear-after' style="overflow: auto" style="float:left">
+			<div class="search-result-pane">
+				    <ul class='attraction clear-after' style="overflow: auto" style="float:left">
 
-	    	<li class="attraction clear-after">
-	    		<div class="search-item">
-    				<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
-    					<div class="search-pic" style="background-image:url('http://www.warhol.org/wp-content/uploads/2016/12/fascade_banner.png')">
-                        </div>
-                    </span>
-                    <div style="height:40px;"> 
-                        <span class="attractionTitle" datalink="http://www.warhol.org/visit/">Andy Warhol Museum</span>
-                	</div>
-                		<div>
-            				<button onclick="add_alert()" class="alert" id>Add</button>
-		    			</div>
-		    	</div>
-		    </li>
+				    	<li class="attraction clear-after">
+				    		<div class="search-item">
+			    				<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
+			    					<div class="search-pic" style="background-image:url('http://www.warhol.org/wp-content/uploads/2016/12/fascade_banner.png')">
+			                        </div>
+			                    </span>
+			                    <div style="height:40px;"> 
+			                        <span class="attractionTitle" datalink="http://www.warhol.org/visit/">Andy Warhol Museum</span>
+			                	</div>
+			                		<div>
+			            				<button onclick="add_alert()" class="alert" id>Add</button>
+					    			</div>
+					    	</div>
+					    </li>
 
-            <li class="attraction clear-after" style="float:left">
-    			<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
-        			<div class="search-item">
-    					<div class="search-pic" style="background-image:url('https://media-cdn.tripadvisor.com/media/photo-s/02/f5/5e/08/mattress-factory.jpg')">
-                        </div>
-                        <div style="height:40px;"> 
-                        <span class="attractionTitle" datalink="http://www.mattress.org/">Mattress Factories</span>
-                		</div>
-                		<div>
-            				<button onclick="add_alert()" class="alert" id>Add</button>
-		    			</div>
-		    		</div>
-		    	</span>
-		    </li>
+			            <li class="attraction clear-after" style="float:left">
+			    			<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
+			        			<div class="search-item">
+			    					<div class="search-pic" style="background-image:url('https://media-cdn.tripadvisor.com/media/photo-s/02/f5/5e/08/mattress-factory.jpg')">
+			                        </div>
+			                        <div style="height:40px;"> 
+			                        <span class="attractionTitle" datalink="http://www.mattress.org/">Mattress Factories</span>
+			                		</div>
+			                		<div>
+			            				<button onclick="add_alert()" class="alert" id>Add</button>
+					    			</div>
+					    		</div>
+					    	</span>
+					    </li>
 
-		    <li class="attraction clear-after">
-	    		<div class="search-item">
-    				<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
-    					<div class="search-pic" style="background-image:url('https://media-cdn.tripadvisor.com/media/photo-s/09/c1/cc/be/center-for-postnatural.jpg')">
-                        </div>
-                    </span>
-                    <div style="height:40px;"> 
-                        <span class="attractionTitle" datalink="http://www.postnatural.org/">Center for PostNatural History</span>
-                	</div>
-                		<div>
-            				<button onclick="add_alert()" class="alert" id>Add</button>
-		    			</div>
-		    	</div>
-		    </li>
+					    <li class="attraction clear-after">
+				    		<div class="search-item">
+			    				<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
+			    					<div class="search-pic" style="background-image:url('https://media-cdn.tripadvisor.com/media/photo-s/09/c1/cc/be/center-for-postnatural.jpg')">
+			                        </div>
+			                    </span>
+			                    <div style="height:40px;"> 
+			                        <span class="attractionTitle" datalink="http://www.postnatural.org/">Center for PostNatural History</span>
+			                	</div>
+			                		<div>
+			            				<button onclick="add_alert()" class="alert" id>Add</button>
+					    			</div>
+					    	</div>
+					    </li>
 
-            <li class="attraction clear-after" style="float:left">
-    			<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
-        			<div class="search-item">
-    					<div class="search-pic" style="background-image:url('https://places2explore.files.wordpress.com/2010/07/cathedral-of-learn-hdr-011.jpg?w=1280')">
-                        </div>
-                        <div style="height:40px;"> 
-                        <span class="attractionTitle" datalink="http://www.nationalityrooms.pitt.edu/about/cathedral-learning">Cathedral of Learning</span>
-                		</div>
-                		<div>
-            				<button onclick="add_alert()" class="alert" id>Add</button>
-		    			</div>
-		    		</div>
-		    	</span>
-		    </li>
-		</ul>
-</div>
+			            <li class="attraction clear-after" style="float:left">
+			    			<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
+			        			<div class="search-item">
+			    					<div class="search-pic" style="background-image:url('https://places2explore.files.wordpress.com/2010/07/cathedral-of-learn-hdr-011.jpg?w=1280')">
+			                        </div>
+			                        <div style="height:40px;"> 
+			                        <span class="attractionTitle" datalink="http://www.nationalityrooms.pitt.edu/about/cathedral-learning">Cathedral of Learning</span>
+			                		</div>
+			                		<div>
+			            				<button onclick="add_alert()" class="alert" id>Add</button>
+					    			</div>
+					    		</div>
+					    	</span>
+					    </li>
+					</ul>
+			</div>
 
-<div id="floating-panel">
-    <b>Mode of Travel: </b>
-    <select id="mode">
-      <option value="DRIVING">By car</option>
-      <option value="WALKING">On foot</option>
-      <option value="BICYCLING">By bicycle</option>
-      <option value="TRANSIT">By public transport</option>
-    </select>
-</div>
-<div id = "dist" style="font-size: 20px"></div>
-<div id="googleMap" style="height:500px;margin:0px;border:0px;padding:0px">
-</div>
-
-
-
-	    	
+			<div id="floating-panel">
+			    <b>Mode of Travel: </b>
+			    <select id="mode">
+			      <option value="DRIVING">By car</option>
+			      <option value="WALKING">On foot</option>
+			      <option value="BICYCLING">By bicycle</option>
+			      <option value="TRANSIT">By public transport</option>
+			    </select>
+			</div>
+			<div id = "dist" style="font-size: 20px"></div>
+			<div id="googleMap" style="height:500px;margin:0px;border:0px;padding:0px">
+			</div>
 
 
 
 
 
+
+			
 
         <div class="sort-box hidden">
             <span class="sort-title">Sort List by:</span>
@@ -549,9 +570,46 @@ function initMap() {
         </div>
         </div>
 
-		
 
 	</div>
 
+
+	
+	<script src="/static/planner/zepto.min.js"></script>
+	<script src="/static/planner/zepto.dragswap.js"></script>
+	<script>
+	$(function() {
+        
+        $('.sortable_exclude_dynamic').dragswap({
+            element : 'li',
+			dropAnimation: true,
+            exclude : ['.correct', '.empty']
+		});  
+		
+        $('.sortable_exclude_dynamic').append(
+            '<li id="item1">Item 1</li>'
+			+'<li id="item2">Item 2</li>'
+			+'<li id="item3" class="correct">Item 3</li>'
+            +'<li id="item4">Item 4</li>'                                  
+			+'<li id="item5" class="empty"></li>'
+			+'<li id="item6" class="correct">Item 6</li>'
+			+'<li id="item7" class="correct">Item 7</li>');
+        
+        $('.sortable').dragswap({
+            element : 'li',
+			dropAnimation: true  
+		});
+        
+		$('.funcs').dragswap({
+			dropAnimation: false,
+			dropComplete: function() {
+				var sortArray = $('.funcs').dragswap('toArray');
+				$('#arrayResults').html('['+sortArray.join(',')+']');
+				var sortJSON = $('.funcs').dragswap('toJSON');
+				$('#jsonResults').html(sortJSON);
+			}
+		});
+	});
+	</script>
 </body>
 </html>
