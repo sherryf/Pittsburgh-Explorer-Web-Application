@@ -12,6 +12,8 @@
 
         <!-- js -->
 		<script src="/static/planner/main.js" type="text/javascript"></script>
+		<script src="/static/planner/time.js" type="text/javascript"></script>
+
 		<!-- add icon -->
    		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	   	<!-- map -->
@@ -74,6 +76,16 @@ function initMap() {
           }
         });
       }
+
+      //delete li
+      
+		// $(document).ready(function(){
+	 //    	$("button").click(function(){
+	 //        	$("#div1").remove();
+		//     });
+		// });
+		
+
    	</script>
 
 
@@ -191,6 +203,7 @@ function initMap() {
 
 	<!-- Drag&Drop  -->
 	<section>
+	<p class="hidden" id="itemCount">3</p>
 	<h2 class="hidden"><em>toJSON</em> <span id="jsonResults"></span></h2>
 		<ul class="sortable list">
 			<li id="item1">
@@ -206,15 +219,15 @@ function initMap() {
 				    <div class="visit-contents">
 				        <div class="left-col bar overlap">
 				            <div class="visit-time">
-				                <div class="time">10:30am</div>
+				                <div class="time" id="time-1">10:30am</div>
 		            		</div>
 				        	<div class="visit-duration">
 				            	<div class="edit-duration">
-				                	<div class="minus reduceTime ">-</div>
+				                	<div class="minus reduceTime " onClick="subtractTime(1)">-</div>
 				                    <div class="duration">
-				                        <div class="durationTime">1:30&#8203;h</div>
+				                        <div class="durationTime" id="time-duration-1">1:30h</div>
 				                    </div>
-				                    <div class="plus addTime ">+</div>
+				                    <div class="plus addTime" onClick="addTime(1)">+</div>
 				                </div>
 				        	</div>
 				        </div>
@@ -255,7 +268,7 @@ function initMap() {
                                 Free</a>
                         </div>
                 	</div>
-                	<div class="delete">
+                	<div class="delete" id="delete" onclick="removeElement(1)">
                         <div class="fa fa-times">x</div>
 		                    </div>
 		                </div>
@@ -278,15 +291,15 @@ function initMap() {
 				    <div class="visit-contents">
 				        <div class="left-col bar overlap">
 				            <div class="visit-time">
-				                <div class="time">1:00pm</div>
+				                <div class="time" id="time-2">1:00pm</div>
 		            		</div>
 				        	<div class="visit-duration">
 				            	<div class="edit-duration">
-				                	<div class="minus reduceTime ">-</div>
+				                	<div class="minus reduceTime" onClick="subtractTime(2)">-</div>
 				                    <div class="duration">
-				                        <div class="durationTime">1:00&#8203;h</div>
+				                        <div class="durationTime" id="time-duration-2">1:00h</div>
 				                    </div>
-				                    <div class="plus addTime ">+</div>
+				                    <div class="plus addTime" onClick="addTime(2)">+</div>
 				                </div>
 				        	</div>
 				        </div>
@@ -327,7 +340,7 @@ function initMap() {
 		                                Under $10</a>
 		                        </div>
 		                	</div>
-		                	<div class="delete"> 
+		                	<div class="delete"  id="delete" onclick="removeElement(2)"> 
 		                        <div class="fa fa-times">x</div>
 		                    </div>
 		                </div>
@@ -350,15 +363,15 @@ function initMap() {
 			    <div class="visit-contents">
 			        <div class="left-col bar overlap">
 			            <div class="visit-time">
-			                <div class="time">3:00pm</div>
+			                <div class="time" id="time-3">3:00pm</div>
 	            		</div>
 			        	<div class="visit-duration">
 			            	<div class="edit-duration">
-			                	<div class="minus reduceTime ">-</div>
+			                	<div class="minus reduceTime" onClick="subtractTime(3)">-</div>
 			                    <div class="duration">
-			                        <div class="durationTime">2:00&#8203;h</div>
+			                        <div class="durationTime" id="time-duration-3">2:00h</div>
 			                    </div>
-			                    <div class="plus addTime ">+</div>
+			                    <div class="plus addTime " onClick="addTime(3)">+</div>
 			                </div>
 			        	</div>
 			        </div>
@@ -399,7 +412,7 @@ function initMap() {
 		                                Free</a>
 		                        </div>
 	                		</div>
-		                	<div class="delete">
+		                	<div class="delete" id="delete" onclick="removeElement(3)">
 		                        <div class="fa fa-times">x</div>
 		                    </div>
 		                </div>
@@ -577,39 +590,13 @@ function initMap() {
 	
 	<script src="/static/planner/zepto.min.js"></script>
 	<script src="/static/planner/zepto.dragswap.js"></script>
+
 	<script>
-	$(function() {
-        
-        $('.sortable_exclude_dynamic').dragswap({
-            element : 'li',
-			dropAnimation: true,
-            exclude : ['.correct', '.empty']
-		});  
-		
-        $('.sortable_exclude_dynamic').append(
-            '<li id="item1">Item 1</li>'
-			+'<li id="item2">Item 2</li>'
-			+'<li id="item3" class="correct">Item 3</li>'
-            +'<li id="item4">Item 4</li>'                                  
-			+'<li id="item5" class="empty"></li>'
-			+'<li id="item6" class="correct">Item 6</li>'
-			+'<li id="item7" class="correct">Item 7</li>');
-        
-        $('.sortable').dragswap({
-            element : 'li',
-			dropAnimation: true  
-		});
-        
-		$('.funcs').dragswap({
-			dropAnimation: false,
-			dropComplete: function() {
-				var sortArray = $('.funcs').dragswap('toArray');
-				$('#arrayResults').html('['+sortArray.join(',')+']');
-				var sortJSON = $('.funcs').dragswap('toJSON');
-				$('#jsonResults').html(sortJSON);
-			}
-		});
-	});
+	function removeElement(i) {
+   		// document.getElementById("item"+i).style.display = "none";
+   		document.getElementById("item"+i).remove();
+	}
 	</script>
+
 </body>
 </html>

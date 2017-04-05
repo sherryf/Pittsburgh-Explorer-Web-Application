@@ -19,6 +19,12 @@
 		  }
 		}
 
+
+
+
+
+
+
 // On click open alert window for adding options
 // function add_alert(){
 // 	alert("I am an alert box!");

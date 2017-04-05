@@ -229,3 +229,50 @@
         });
     };
 })(Zepto);
+
+// drag&drop
+$(function() {
+        
+        $('.sortable_exclude_dynamic').dragswap({
+            element : 'li',
+            dropAnimation: true,
+            exclude : ['.correct', '.empty']
+        });  
+        
+        $('.sortable_exclude_dynamic').append(
+            '<li id="item1">Item 1</li>'
+            +'<li id="item2">Item 2</li>'
+            +'<li id="item3" class="correct">Item 3</li>'
+            +'<li id="item4">Item 4</li>'                                  
+            +'<li id="item5" class="empty"></li>'
+            +'<li id="item6" class="correct">Item 6</li>'
+            +'<li id="item7" class="correct">Item 7</li>');
+        
+        $('.sortable').dragswap({
+            element : 'li',
+            dropAnimation: true  
+        });
+        
+        $('.funcs').dragswap({
+            dropAnimation: false,
+            dropComplete: function() {
+                var sortArray = $('.funcs').dragswap('toArray');
+                $('#arrayResults').html('['+sortArray.join(',')+']');
+                var sortJSON = $('.funcs').dragswap('toJSON');
+                $('#jsonResults').html(sortJSON);
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
