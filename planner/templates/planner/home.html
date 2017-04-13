@@ -1,495 +1,544 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>3 days in San Francisco Itinerary in March • Inspirock</title>
-        <!-- Theme CSS --> 
-        <!-- <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'> -->
-        <link id="theme-style" rel="stylesheet" href="/static/planner/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- js -->
-		<script src="/static/planner/main.js" type="text/javascript"></script>
-		<script src="/static/planner/time.js" type="text/javascript"></script>
+	<title>1 day in Pittsburgh Itinerary • Inspirock</title>
+	<!-- Theme CSS --> 
+	<!-- <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'> -->
+	<link id="theme-style" rel="stylesheet" href="/static/planner/style.css">
 
-		<!-- add icon -->
-   		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	   	<!-- map -->
-   	    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZn0a_BJUnRLk4BVYMeY_uEl8EHXKPKig&callback=initMap"
-  type="text/javascript"></script>
+	<!-- js -->
+	<script src="/static/planner/main.js" type="text/javascript"></script>
+	<script src="/static/planner/time.js" type="text/javascript"></script>
 
-  		<script>
-   		function add_alert(){
-	alert("I am an alert box!");
-}
+	<!-- add icon -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<!-- map -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZn0a_BJUnRLk4BVYMeY_uEl8EHXKPKig&callback=initMap"
+	type="text/javascript"></script>
+	<script src="/static/planner/addAction.js" type="text/javascript"></script>
+	<script src="/static/planner/update_right.js" type="text/javascript"></script>
+	<script src="/static/planner/save.js" type="text/javascript"></script>
+
+<!-- 	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false" 
+           type="text/javascript"></script> -->
+
+	<script>
 // Mapping from Xinran
+function getStartPoint(){
+	var x = document.getElementById("addr-0");
+	return x.innerHTML;
+}
+function getEndPoint(){
+	var numChild = document.getElementsByClassName("sortable list")[0].children.length;
+	var x = document.getElementsByClassName("sortable list")[0].lastElementChild;
+	var endPoint = x.getElementsByClassName("hidden")[0].innerHTML;
+	return endPoint;
+
+}
+function calculWayPoints(){
+	var numChild = document.getElementsByClassName("sortable list")[0].children.length;
+	var waypts = [];
+	for(var i = 0; i < numChild; i++){
+		var x = document.getElementsByClassName("sortable list")[0];
+		var point = x.children[i].getElementsByClassName("hidden")[0].innerHTML;
+		waypts.push({
+			location: point,
+			stopover: true
+		});
+	}
+	// console.log(waypts);
+	return waypts;
+}
 function initMap() {
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        var map = new google.maps.Map(document.getElementById('googleMap'), {
-          zoom: 7,
-          center: {lat: 41.85, lng: -87.65}
-        });
-        var origin = new google.maps.LatLng(37.77493,-122.41942),
-            destination = new google.maps.LatLng(37.8006813,-122.444923),
-            service = new google.maps.DistanceMatrixService();
-        service.getDistanceMatrix(
-            {
-                origins: [origin],
-                destinations: [destination],
-                travelMode: google.maps.TravelMode.DRIVING,
-                avoidHighways: false,
-                avoidTolls: false
-            }, 
-            callback
-        );
-        directionsDisplay.setMap(map);
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
-        // var onChangeHandler = function() {
-        //   calculateAndDisplayRoute(directionsService, directionsDisplay);
-        // };
-        // document.getElementById('start').addEventListener('change', onChangeHandler);
-        // document.getElementById('end').addEventListener('change', onChangeHandler);
-      }
-      function callback(response, status) {
-        var dist = document.getElementById("dist");
-        if(status=="OK") {
-            value = response.rows[0].elements[0].duration.text;
-            dist.innerHTML = "The total time is " + value;
-            console.log(dist.value);
-        } else {
-            alert("Error: " + status);
-        }
-      }
-      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        directionsService.route({
-          origin: "37.77493,-122.41942",
-          destination: "37.8006813,-122.444923",
-          travelMode: 'DRIVING'
-        }, function(response, status) {
-          if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-      }
+	var directionsService = new google.maps.DirectionsService;
+	var directionsDisplay = new google.maps.DirectionsRenderer;
+	var map = new google.maps.Map(document.getElementById('googleMap'), {
+		zoom: 12,
+		center: {lat: 40.4406, lng: -79.9959}
+	});
+	directionsDisplay.setMap(map);
 
-      //delete li
-      
-		// $(document).ready(function(){
-	 //    	$("button").click(function(){
-	 //        	$("#div1").remove();
-		//     });
-		// });
-		
+	calculateAndDisplayRoute(directionsService, directionsDisplay);
+	
+	document.getElementById('mode').addEventListener('change', function() {
+		calculateAndDisplayRoute(directionsService, directionsDisplay);
+	});
+}
 
-   	</script>
-
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+	var waypts = calculWayPoints();
+	var selectedMode = document.getElementById('mode').value;
+	
+	var originPoint = getStartPoint();
+	var desPoint = originPoint;
+	directionsService.route({
+		origin: originPoint,
+		destination: originPoint,
+		waypoints: waypts,
+		optimizeWaypoints: false,
+		travelMode: google.maps.TravelMode[selectedMode]
+	}, function(response, status) {
+		if (status === 'OK') {
+			directionsDisplay.setDirections(response);
+		} else {
+			window.alert('Directions request failed due to ' + status);
+		}
+	});
+}
+</script>
 
 </head>
 
 <body>
 	<header class="page-header right" id="pageHeader">
-
 		<div class="header-fixer" style="">
 			<div class="header-contents clear-after">
 				<div class="header-logo">
 					<a href="/"> Pittsburgh Explorer </a>
-                	<span class="tagline">Your best one-day planner</span>
+					<span class="tagline">Your best one-day planner</span>
 				</div>
 
 				<nav class="page-nav right">
 					<ul>
-	                    <li>
-	                        <a id="newplan" rel="nofollow" href="/placeholder-for-same-page-empty"><span>+ New plan</span></a>
-	                    </li>
-	                    <li id="myPlans" data-dropdown-url="/myPlansDropdown" >
-	                        <a rel="nofollow" href="javascript:void(0);">
-	                            <span>My plans</span>
-	                        </a>
-	                    </li>
-	                    <li id="userOptions" class="hidden">
-	                        <a rel="nofollow" href="javascript:void(0);">
-	                            <span class="name">Profile</span>
-	                        </a>
-	                        <div class="hidden">
-	                            <div id="userDropdown">
-	                                <ul>
-	                                    <li class="logout-button">Log out</li>
-	                                </ul>
-	                            </div>
-	                            <form id="logoutForm" action="/logout" method="POST"></form></div>
-	                    </li>
-	                    <li id="userLogin" class="">
-	                                    <a rel="nofollow" class="login-button" href="/login">
-	                                        <span>Log in</span>
-	                                    </a>
-	                    </li>
-	                    <li id="help-container">
-							<!-- <a href="#" class="help-tips"></a> -->
-	                    </li>
-                	</ul>
-				</nav>
-			</div>			
-		</div>
-	</header>
+						<li>
+							<a id="newplan" rel="nofollow" href="/placeholder-for-same-page-empty"><span>+ New plan</span></a>
+						</li>
+						<li id="myPlans" data-dropdown-url="/myPlansDropdown" >
+							<a rel="nofollow" href="javascript:void(0);">
+								<span>My plans</span>
+							</a>
+						</li>
+						<li id="userOptions" class="hidden">
+							<a rel="nofollow" href="javascript:void(0);">
+								<span class="name">Profile</span>
+							</a>
+							<div class="hidden">
+								<div id="userDropdown">
+									<ul>
+										<li class="logout-button">Log out</li>
+									</ul>
+								</div>
+								<form id="logoutForm" action="/logout" method="POST"></form></div>
+							</li>
+							<li id="userLogin" class="">
+								<a rel="nofollow" class="login-button" href="{% url 'logout' %}">
+									<span>Log out</span>
+								</a>
+							</li>
+							<li id="help-container">
+							</li>
+						</ul>
+					</nav>
+				</div>			
+			</div>
+		</header>
 
-	<div class="page-content  clear" id="pageContent" >
-		<div class ="planHeaderWrapper" >
-			<header class="plan-header" id="planHeader" >
-				<div class="plan-header-wrap">
-					<div class="plan-header-center clear-after">
-						<nav id="plan-nav" class="plan-nav">
-							<ul class="tabs clear-after">
-								<li class="tab-overview " data-target="overview">					
-		                        	<a href="http://www.escaperoompgh.com/"> One-day Trip Planned Around Room Escape </a>
-		                    	</li>
+		<div class="page-content  clear" id="pageContent" >
+			<div class ="planHeaderWrapper" >
+				<header class="plan-header" id="planHeader" >
+					<div class="plan-header-wrap">
+						<div class="plan-header-center clear-after">
+							<nav id="plan-nav" class="plan-nav">
+								<ul class="tabs clear-after">
+									<li class="tab-overview " data-target="overview">					
+										<a href="http://www.escaperoompgh.com/"> One-day Trip Planned Around {{interest}}
+										</a>
+									</li>
+								</ul>
+							</nav>
+
+							<ul class="plan-actions right">
+								<li id="action-download" class="iconaction" style="vertical-align: center;">
+									<a href="#" >
+										<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px">file_download</i>
+									</a>
+								</li>
+								<li id="action-share" class="iconaction">
+									<a href="#">
+										<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px" onClick="save()">share</i>
+									</a>
+								</li>
+								<li id="action-syncphone" class="iconaction">
+									<a href="#">
+										<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px">important_devices</i>
+									</a>
+								</li>
+								<li id="action-save" class="iconaction">
+									<a href="#">
+										<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px">book</i>
+									</a>
+								</li>
 							</ul>
-						</nav>
-
-						<ul class="plan-actions right">
-							<li id="action-download" class="iconaction" style="vertical-align: center;">
-							 	<a href="#" >
-		         					<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px">file_download</i>
-		        				</a>
-		                	</li>
-			                <li id="action-share" class="iconaction">
-								<a href="#">
-								  	<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px">share</i>
-								</a>
-							</li>
-			                <li id="action-syncphone" class="iconaction">
-								<a href="#">
-								  	<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px">important_devices</i>
-								</a>
-							</li>
-			                <li id="action-save" class="iconaction">
-								<a href="#">
-								  	<i class="material-icons" style="font-size:42px;color:lightgrey;padding-top:12px">book</i>
-								</a>
-							</li>
-		                </ul>
+						</div>
 					</div>
-				</div>
-			</header>
-		</div>
-		
-	<div id="itineraryMainPane" class="itinerary-main-pane "> 
-	<div id="daybyday" >
-	<!-- Start time record -->
-		<div class="day-title clearfix ">
-			<div class="day-title-container destinationDetailsLink clickable-text" data-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/trip-planner-d62308463" data-event-src="day-title">
+				</header>
+			</div>
+			
+			<div id="itineraryMainPane" class="itinerary-main-pane "> 
+				<div id="daybyday" >
+					<!-- Start time record -->
+					<div class="day-title clearfix ">
+						<div class="day-title-container destinationDetailsLink clickable-text" data-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/trip-planner-d62308463" data-event-src="day-title">
 
-			<div class="day">
-		            <div class="mon">Mar</div>
-		            <div class="date">15</div>
-		            <div class="dow">Wed</div>
-	        </div>
+							<div class="day">
+								<div class="mon" >{{mon}}</div>
+								<div class="date">{{date}}</div>
+								<div class="dow" >{{dow}}</div>
+							</div>
+						{% csrf_token %}
+					 </form>
 
-	        <div class="in-wrap">
-	            <div class="bar"></div>
-	        </div>
 
-	        <div class="stay-area">
-	            <div class="stayName">Day starts at 9:30am at Center&Morewood </div>
-	        </div>
-
-	        </div>
-		</div>	
-	</div>
-
-	<!-- Drag&Drop  -->
-	<section>
-	<p class="hidden" id="itemCount">3</p>
-	<h2 class="hidden"><em>toJSON</em> <span id="jsonResults"></span></h2>
-		<ul class="sortable list">
-			<li id="item1">
-
-				<!-- ** Travel-Ban ** -->
-			    <div class="itinerary-hop-row">
-				    <span class="down-arrow"></span>
-				    <span class="travelTime">52&#8203;min</span>
-				    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/''/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/@40.4489007,-80.0236437,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f23c3289e4a9:0x27546d61b6e01184!2m2!1d-79.944537!2d40.454039!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!3e3" target="_blank">Get details &raquo;</a>
-		        </div>
-		        <!-- Morning Item -->
-		        <div class="visit-row">
-				    <div class="visit-contents">
-				        <div class="left-col bar overlap">
-				            <div class="visit-time">
-				                <div class="time" id="time-1">10:30am</div>
-		            		</div>
-				        	<div class="visit-duration">
-				            	<div class="edit-duration">
-				                	<div class="minus reduceTime " onClick="subtractTime(1)">-</div>
-				                    <div class="duration">
-				                        <div class="durationTime" id="time-duration-1">1:30h</div>
-				                    </div>
-				                    <div class="plus addTime" onClick="addTime(1)">+</div>
-				                </div>
-				        	</div>
-				        </div>
-
-		        <div class="right-col">
-            		<div>
-                		<div class="copyright-info">
-    						<div class="visit-row-medium">
-                        		<div class="photo clickable-image attLink"
-                                    style="background-image: url('https://media-cdn.tripadvisor.com/media/photo-s/0d/a8/31/d3/johnny-angel-s-ginchy.jpg')" >
-                                </div>
-                            </div>
-                		</div>
-                		<div class="detail">
-		                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://www.jaginchystuff.com/">Johnny Angel's Ginchy Stuff</a></div>
-		                    <div class="clear"></div>
-
-		                    <div class="rating-stars ">
-							    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
-							    <div class="i-stars i-stars--small-5 rating-large" title="4.5 star rating">
-       							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
-   								</div>
+							<div class="in-wrap">
+								<div class="bar"></div>
 							</div>
 
-							<div class="review">(12+ reviews)</div>
-                			<div class="tags-attractions">
-                    			<span class="tag" data-cat-id="70">Indoor Activity</span>
-                            </div>
+							<div class="stay-area">
+								<div class="stayName">Day starts at {{startTime}} at {{start}}
+								</div>
+							</div>
+							<p class="hidden" id="addr-0">{{slat}},{{slng}}</p>
+							<p class="hidden" id="endtime-0">{{timeline.0}}</p>
 
-                    		<div class="desc">
-                        		<blockquote class="trim-desc" data-more-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/alcatraz-island-a63897243" cite="https://www.inspirock.com/united-states/san-francisco/alcatraz-island-a63897243">
-                            		Johnny Angel’s store can be broken up into the museum, home to Johnny’s collection of memorabilia spanning his 50+ years in the music business, and his store
-                            	</blockquote>
-                    		</div>
-
-                    	<div class="tags-and-tours">
-                        	<a class="tours-link text-link attLink jumper" href="/">
-                                Free</a>
-                        </div>
-                	</div>
-                	<div class="delete" id="delete" onclick="removeElement(1)">
-                        <div class="fa fa-times">x</div>
-		                    </div>
-		                </div>
-		        	</div>
-				</div>
+						</div>
+					</div>	
 				</div>
 
-			</li>
+				<!-- Drag&Drop  -->
+				<section>
+					<p class="hidden" id="itemCount">3</p>
+					<h2 class="hidden"><em>toJSON</em> <span id="jsonResults"></span></h2>
+					<ul class="sortable list">
+						<div id="1">
+							<p class="hidden" id="addr-1">{{morning_event.lat}},{{morning_event.lng}}</p>
+							<p class="hidden" id="time-end-1">{{timeline.4}}</p>
 
-			<li id="item2">
-				<!-- ** Travel-Ban ** -->
-			    <div class="itinerary-hop-row">
-				    <span class="down-arrow"></span>
-				    <span class="travelTime">60&#8203;min</span>
-				    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/Johnny+Angel's+Ginchy+Stuff,,+1800+Preble+Avenue,,+Pittsburgh,+PA+15233/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/@40.4365128,-80.0535015,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f45baaaaaaab:0x74b583fc8405ab1b!2m2!1d-80.0324016!2d40.4562853!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!3e3" target="_blank">Get details &raquo;</a>
-		        </div>
 
-		        <!-- Lunch Item -->
-		        <div class="visit-row">
-				    <div class="visit-contents">
-				        <div class="left-col bar overlap">
-				            <div class="visit-time">
-				                <div class="time" id="time-2">1:00pm</div>
-		            		</div>
-				        	<div class="visit-duration">
-				            	<div class="edit-duration">
-				                	<div class="minus reduceTime" onClick="subtractTime(2)">-</div>
-				                    <div class="duration">
-				                        <div class="durationTime" id="time-duration-2">1:00h</div>
-				                    </div>
-				                    <div class="plus addTime" onClick="addTime(2)">+</div>
-				                </div>
-				        	</div>
-				        </div>
+							<li id="item1">
 
-				        <div class="right-col">
-		            		<div>
-		                		<div class="copyright-info">
-		    						<div class="visit-row-medium">
-		                        		<div class="photo clickable-image attLink"
-		                                    style="background-image: url('https://s3-media2.fl.yelpcdn.com/bphoto/kR0bw8t0EJYfIEWf_RqhDA/o.jpg')" >
-		                                </div>
-		                            </div>
-		                		</div>
-		                		<div class="detail">
-				                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://places.singleplatform.com/the-alcove-2/menu?ref=google">The Alcove</a></div>
-				                    <div class="clear"></div>
+					<!-- ** Travel-Ban ** -->
+					<div class="itinerary-hop-row">
+						<span class="down-arrow"></span>
+						<!-- change -->
+						<span class="travelTime">{{timeline.1}}</span>
+						<a class="directions text-link" rel="nofollow" href="https://www.google.com/maps?saddr={{slat}},{{slng}}&daddr={{morning_event.lat}},{{morning_event.lng}}" target="_blank">Get details &raquo;</a>
 
-				                    <div class="rating-stars ">
-									    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
-									    <div class="i-stars i-stars--small-5 rating-large" title="5 star rating">
-		       							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
-		   								</div>
+					</div>
+					<!-- Morning Item -->
+					<div class="visit-row">
+						<div class="visit-contents">
+							<div class="left-col bar overlap">
+								<div class="visit-time">
+									<div class="time" id="time-1">{{timeline.2}}</div>
+								</div>
+								<div id="id" class="hidden">{{morning_event.id}}</div>
+								<div class="visit-duration">
+									<div class="edit-duration">
+										<div class="minus reduceTime " onClick="subtractTime(this)" id="01">-</div>
+										<div class="duration">
+											<div class="durationTime" id="time-duration-1">{{timeline.3}}h</div>
+										</div>
+										<div class="plus addTime" onClick="addTime(this)" id="01">+</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="right-col">
+								<div>
+									<div class="copyright-info">
+										<div class="visit-row-medium">
+											<div class="photo clickable-image attLink"
+											style="background-image: url({{morning_event.imageurl}})" >
+										</div>
+									</div>
+								</div>
+								<div class="detail">
+									<div class="name attLink clickable-text"><a id="attrtitle" href={{morning_event.url}}>{{morning_event.name}}</a></div>
+									<div class="clear"></div>
+
+									<div class="rating-stars ">
+										<!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
+										<div class="i-stars i-stars--small-{{morning_event_rate}} rating-large" title="{{morning_event.rate}} star rating">
+											<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="{{morning_event.rate}} star rating">
+										</div>
 									</div>
 
-									<div class="review">(10 reviews)</div>
-		                			<div class="tags-attractions">
-		                    			<span class="tag" data-cat-id="70">Restaurant</span>
-		                            </div>
+									<!-- 	<div class="review">(12+ reviews)</div> -->
+									<div class="tags-attractions">
+										<span class="tag" data-cat-id="70">{{morning_event.category}}</span>
+									</div>
 
-		                    		<div class="desc">
-		                        		<blockquote class="trim-desc" data-more-link="https://www.yelp.com/biz/the-alcove-pittsburgh" cite="https://www.yelp.com/biz/the-alcove-pittsburgh">
-		                            		Sandwiches, Diners, Delis
-		                            	</blockquote>
-		                    		</div>
+									<div class="desc">
+										<blockquote class="trim-desc" data-more-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/alcatraz-island-a63897243" cite="https://www.inspirock.com/united-states/san-francisco/alcatraz-island-a63897243">
+											{{morning_event.shortdesc}}
+										</blockquote>
+									</div>
 
-		                    	<div class="tags-and-tours">
-		                        	<a class="tours-link text-link attLink jumper" href="/">
-		                                Under $10</a>
-		                        </div>
-		                	</div>
-		                	<div class="delete"  id="delete" onclick="removeElement(2)"> 
-		                        <div class="fa fa-times">x</div>
-		                    </div>
-		                </div>
-		        	</div>
-				</div>
+									<div class="tags-and-tours">
+										<a class="tours-link text-link attLink jumper" href="/">
+											{% if morning_event.cost == 0 %}
+											Free
+											{% else %}
+											About $ {{morning_event.cost}} 
+											{% endif %}
+										</a>
+									</div>
+								</div>
+								<div class="delete" id="delete" onclick="removeElement(1)">
+									<div class="fa fa-times">x</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 			</li>
 
-			<li id="item3">
+		</div>
+		
+
+		<div id="2">
+			<p class="hidden" id="addr-2">{{lunch.lat}},{{lunch.lng}}</p >
+			<p class="hidden" id="time-end-2">{{timeline.8}}</p >
+
+			<li id="item2" >
 				<!-- ** Travel-Ban ** -->
-			    <div class="itinerary-hop-row">
-				    <span class="down-arrow"></span>
-				    <span class="travelTime">60&#8203;min</span>
-				    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/The+Alcove,+875+Greentree+Rd+%23106,+Pittsburgh,+PA+15220/Carnegie+Museum+of+Natural+History,+Carnegie+Museums+of+Pittsburgh,+4400+Forbes+Ave,+Pittsburgh,+PA+15213/@40.4318721,-80.0310059,13z/data=!3m2!4b1!5s0x8834f226f188e875:0xa91352f532470d90!4m14!4m13!1m5!1m1!1s0x8834f6ed3ebf6a37:0x90ed0328d0b4ba90!2m2!1d-80.0407444!2d40.4266614!1m5!1m1!1s0x8834f2264fbf8605:0x8968e7e4db84efc2!2m2!1d-79.950705!2d40.44345!3e3" target="_blank">Get details &raquo;</a>
-		        </div>
+				<div class="itinerary-hop-row">
+					<span class="down-arrow"></span>
+					<span class="travelTime">{{timeline.5}}</span>
+					<a class="directions text-link" rel="nofollow" href="https://www.google.com/maps?saddr={{morning_event.lat}},{{morning_event.lng}}&daddr={{lunch.lat}},{{lunch.lng}}" target="_blank">Get details &raquo;</a>
+				</div>
 
-			<!-- Afternoon Item -->
-	        <div class="visit-row">
-			    <div class="visit-contents">
-			        <div class="left-col bar overlap">
-			            <div class="visit-time">
-			                <div class="time" id="time-3">3:00pm</div>
-	            		</div>
-			        	<div class="visit-duration">
-			            	<div class="edit-duration">
-			                	<div class="minus reduceTime" onClick="subtractTime(3)">-</div>
-			                    <div class="duration">
-			                        <div class="durationTime" id="time-duration-3">2:00h</div>
-			                    </div>
-			                    <div class="plus addTime " onClick="addTime(3)">+</div>
-			                </div>
-			        	</div>
-			        </div>
+				<!-- Lunch Item -->
+				<div class="visit-row">
+					<div class="visit-contents">
+						<div class="left-col bar overlap">
+							<div class="visit-time">
+								<div class="time" id="time-2">{{timeline.6}}</div>
+							</div>
+							<div id="id" class="hidden">{{lunch.id}}</div>
+							<div class="visit-duration">
+								<div class="edit-duration">
+									<div class="minus reduceTime" onClick="subtractTime(this)" id="02">-</div>
+									<div class="duration">
+										<div class="durationTime" id="time-duration-2">{{timeline.7}}h</div>
+									</div>
+									<div class="plus addTime" onClick="addTime(this)" id="02">+</div>
+								</div>
+							</div>
+						</div>
 
-			        <div class="right-col">
-	            		<div>
-	                		<div class="copyright-info">
-	    						<div class="visit-row-medium">
-	                        		<div class="photo clickable-image attLink"
-	                                    style="background-image: url('https://thefriendlygiraffe.files.wordpress.com/2012/09/dsc_0243.jpg?w=1378&h=916')" >
-	                                </div>
-	                            </div>
-	                		</div>
-	                		<div class="detail">
-			                    <div class="name attLink clickable-text"><a id="attrtitle" href="http://www.carnegiemnh.org/">Carnegie Museum of Natural History</a></div>
-			                    <div class="clear"></div>
+						<div class="right-col">
+							<div>
+								<div class="copyright-info">
+									<div class="visit-row-medium">
+										<div class="photo clickable-image attLink"
+										style="background-image: url('https://s3-media2.fl.yelpcdn.com/bphoto/kR0bw8t0EJYfIEWf_RqhDA/o.jpg')" >
+									</div>
+								</div>
+							</div>
+							<div class="detail">
+								<div class="name attLink clickable-text"><a id="attrtitle" href="http://places.singleplatform.com/the-alcove-2/menu?ref=google">{{lunch.name}}</a></div>
+								<div class="clear"></div>
 
-			                    <div class="rating-stars ">
-								    <!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
-								    <div class="i-stars i-stars--small-4-half rating-large" title="4.5 star rating">
-	       							 	<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="4.5 star rating">
-	   								</div>
+								<div class="rating-stars ">
+									<!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
+									<div class="i-stars i-stars--small-{{lunch_rate}} rating-large" title="{{lunch.rate}} star rating">
+										<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="{{lunch.rate}} star rating">
+									</div>
 								</div>
 
-								<div class="review">(1,169+ reviews)</div>
-	                			<div class="tags-attractions">
-	                    			<span class="tag" data-cat-id="70">Museum</span>
-	                            </div>
+								<!-- <div class="review">(10 reviews)</div> -->
+								<div class="tags-attractions">
+									<span class="tag" data-cat-id="70">{{lunch.category}}</span>
+								</div>
 
-	                    		<div class="desc">
-	                        		<blockquote class="trim-desc" data-more-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/alcatraz-island-a63897243" cite="https://www.inspirock.com/united-states/san-francisco/alcatraz-island-a63897243">
-	                            		Dig for bones in Bonehunters Quarry, get hands-on with real and replica specimens in Discovery Basecamp.
-	                            	</blockquote>
-	                    		</div>
+								<div class="desc">
+									<blockquote class="trim-desc" data-more-link="https://www.yelp.com/biz/the-alcove-pittsburgh" cite="https://www.yelp.com/biz/the-alcove-pittsburgh">
+										{{lunch.shortdesc}}
+									</blockquote>
+								</div>
 
-	                    		<div class="tags-and-tours">
-		                        	<a class="tours-link text-link attLink jumper" href="/">
-		                                Free</a>
-		                        </div>
-	                		</div>
-		                	<div class="delete" id="delete" onclick="removeElement(3)">
-		                        <div class="fa fa-times">x</div>
-		                    </div>
-		                </div>
-		        	</div>
+								<div class="tags-and-tours">
+									<a class="tours-link text-link attLink jumper" href="/">
+			                        	<!-- {% if lunch.cost == 0 %}
+														Free
+													{% else %}
+														About $ {{lunch.cost}} 
+														{% endif %} -->
+														About $ 10</a>
+													</div>
+												</div>
+												<div class="delete"  id="delete" onclick="removeElement(2)"> 
+													<div class="fa fa-times">x</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</li>
+						</div>
+
+						<div id="3">
+							<p class="hidden" id="addr-3">{{afternoon_event.lat}},{{afternoon_event.lng}}</p>
+							<p class="hidden" id="time-end-3">{{timeline.12}}</p>
+
+
+							<li id="item3">
+
+								<!-- ** Travel-Ban ** -->
+								<div class="itinerary-hop-row">
+									<span class="down-arrow"></span>
+									<span class="travelTime">{{timeline.9}}</span>
+									<a class="directions text-link" rel="nofollow" href="https://www.google.com/maps?saddr={{lunch.lat}},{{lunch.lng}}&daddr={{afternoon_event.lat}},{{afternoon_event.lng}}" target="_blank">Get details &raquo;</a>
+								</div>
+
+								<!-- Afternoon Item -->
+								<div class="visit-row">
+									<div class="visit-contents">
+										<div class="left-col bar overlap">
+											<div class="visit-time">
+												<div class="time" id="time-3">{{timeline.10}}</div>
+											</div>
+											<div id="id" class="hidden">{{afternoon_event.id}}</div>
+											<div class="visit-duration">
+												<div class="edit-duration">
+													<div class="minus reduceTime" onClick="subtractTime(this)" id="03">-</div>
+													<div class="duration">
+														<div class="durationTime" id="time-duration-3">{{timeline.11}}h</div>
+													</div>
+													<div class="plus addTime " onClick="addTime(this)" id="03">+</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="right-col">
+											<div>
+												<div class="copyright-info">
+													<div class="visit-row-medium">
+														<div class="photo clickable-image attLink"
+														style="background-image: url({{afternoon_event.imageurl}})" >
+													</div>
+												</div>
+											</div>
+											<div class="detail">
+												<div class="name attLink clickable-text"><a id="attrtitle" href={{afternoon_event.url}}>{{afternoon_event.name}}</a></div>
+												<div class="clear"></div>
+
+												<div class="rating-stars ">
+													<!-- <span class="rating-stars-fill" style="width:94.0%;"></span> -->
+													<div class="i-stars i-stars--small-{{afternoon_event_rate}} rating-large" title="{{afternoon_event.rate}} star rating">
+														<img class="offscreen" height="303" src="https://s3-media1.fl.yelpcdn.com/assets/srv0/yelp_design_web/41341496d9db/assets/img/stars/stars.png" width="84" alt="{{afternoon_event.rate}} star rating">
+													</div>
+												</div>
+
+												<!-- <div class="review">(1,169+ reviews)</div> -->
+												<div class="tags-attractions">
+													<span class="tag" data-cat-id="70">{{afternoon_event.category}}</span>
+												</div>
+
+												<div class="desc">
+													<blockquote class="trim-desc" data-more-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/alcatraz-island-a63897243" cite="https://www.inspirock.com/united-states/san-francisco/alcatraz-island-a63897243">
+														{{afternoon_event.shortdesc}}
+													</blockquote>
+												</div>
+
+												<div class="tags-and-tours">
+													<a class="tours-link text-link attLink jumper" href="/">
+														{% if afternoon_event.cost == 0 %}
+														Free
+														{% else %}
+														About $ {{afternoon_event.cost}} 
+														{% endif %} 
+													</a>
+												</div>
+											</div>
+											<div class="delete" id="delete" onclick="removeElement(3)">
+												<div class="fa fa-times">x</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</div>
+
+				</ul>
+			</section>
+
+			<!-- ** Travel-Ban ** -->
+			<div class="itinerary-hop-row" id="backHome">
+				<span class="down-arrow"></span>
+				<span class="travelTime">{{timeline.13}}</span>
+				<a class="directions text-link" rel="nofollow" href="https://www.google.com/maps?saddr={{afternoon_event.lat}},{{afternoon_event.lng}}&daddr={{slat}},{{slng}}" target="_blank">Get details &raquo;</a>
+			</div>
+
+			<!-- End time record -->
+			<div class="day-title clearfix ">
+				<div class="day-title-container destinationDetailsLink clickable-text" data-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/trip-planner-d62308463" data-event-src="day-title">
+					<div class="day">
+						<!-- <p>  </p> -->
+						<div class="mon">Total</div>
+						<div class="date TotalMoany">$ {{total}}</div>						<!-- <div class="dow">Wed</div> -->
+					</div>
+					<div class="in-wrap">
+						<div class="bar"></div>
+					</div>
+					<div class="stay-area">
+						<div class="stayName" id="homeTime">Day ends at {{timeline.14}} at {{start}}</div>
+					</div>
 				</div>
-				</div>
-			</li>
-
-			</ul>
-		</section>
-
-		<!-- ** Travel-Ban ** -->
-	    <div class="itinerary-hop-row">
-		    <span class="down-arrow"></span>
-		    <span class="travelTime">12&#8203;min</span>
-		    <a class="directions text-link" rel="nofollow" href="https://www.google.com/maps/dir/Carnegie+Museum+of+Natural+History,+Carnegie+Museums+of+Pittsburgh,+4400+Forbes+Ave,+Pittsburgh,+PA+15213/''/@40.448577,-79.9568605,15z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x8834f2264fbf8605:0x8968e7e4db84efc2!2m2!1d-79.950705!2d40.44345!1m5!1m1!1s0x8834f23c3289e4a9:0x27546d61b6e01184!2m2!1d-79.944537!2d40.454039!3e3" target="_blank">Get details &raquo;</a>
-        </div>
-
-		<!-- End time record -->
-		<div class="day-title clearfix ">
-			<div class="day-title-container destinationDetailsLink clickable-text" data-link="/plan/84f74934-fc04-4fab-bee3-6d2828540ad7/united-states/san-francisco/trip-planner-d62308463" data-event-src="day-title">
-       			<div class="day">
-       			<!-- <p>  </p> -->
-		            <div class="mon">Total</div>
-		            <div class="date">$15</div>
-		            <!-- <div class="dow">Wed</div> -->
-		        </div>
-		        <div class="in-wrap">
-		            <div class="bar"></div>
-		        </div>
-		        <div class="stay-area">
-		            <div class="stayName">Day ends at 5:30pm at Center&Morewood </div>
-		        </div>
-		    </div>
-		</div>
-    </div> <!-- end daybyday -->
+			</div>
+		</div> <!-- end daybyday -->
 	</div> <!-- itineraryMainPane -->
 
 	<div id="SugguestionMainPane" class="suggestion-main-pane "> 
 		<div class="search-title">
-        	<div class="title">Things to do nearby Room Escape</div>
-        </div>
-        <div class="more-filters ">
-        	<div class="clearfix">
-        		<!-- Dropdown Buttons -->
-            	<div class="dropdown">
-            		<button onclick="myFunction(1)" class="dropbtn" id="1">Indoor</button>
-            			<div id="myDropdown 1" class="dropdown-content 1">
-            				<a href="#Museum">Museum</a>
-		    				<a href="#Activity">Activity</a>
-		    				<a href="#Courses">Courses</a>
-		    			</div>
-		    	</div>
+			<div class="title">Things to do nearby {{interest}}</div>
+		</div>
+		<div class="more-filters ">
+			<div class="clearfix">
+				<!-- Dropdown Buttons -->
+				<div class="dropdown">
+					<button onclick="myFunction(1)" class="dropbtn" id="1">Indoor</button>
+					<div id="myDropdown 1" class="dropdown-content 1">
+						<a href="#Museums" id = "Museums" onclick="change(this.id)"> Museums</a>
+						<a href="#Concerts" id = "Concerts" onclick="change(this.id)">Concerts</a>
+						<a href="#Workshops" id = "Workshops" onclick="change(this.id)">Workshops</a>
+						<a href="#Shopping" id = "Shopping" onclick="change(this.id)">Shopping</a>
+						<a href="#Fun&Games" id ="Fun&Games" onclick="change(this.id)">Fun&amp;Games</a>	
+					</div>
+				</div>
 
-		    	<div class="dropdown">
-            		<button onclick="myFunction(2)" class="dropbtn">Restaurant</button>
-            			<div id="myDropdown 2" class="dropdown-content 2">
-            				<a href="#$">$</a>
-		    				<a href="#$$">$$</a>
-		    				<a href="#$$$">$$$</a>
-		    			</div>
-		    	</div>
+				<div class="dropdown">
+					<button onclick="change(this.id)" id = "Restaurant" class="dropbtn">Restaurant</button>
+					<!-- <div id="myDropdown 2" class="dropdown-content 2"> -->
+					<!-- 	<a href="#$">$</a>
+						<a href="#$$">$$</a>
+						<a href="#$$$">$$$</a> -->
+					<!-- </div> -->
+				</div>
 
-		    	<div class="dropdown">
-            		<button onclick="myFunction(3)" class="dropbtn">Outdoor</button>
-            			<div id="myDropdown 3" class="dropdown-content 3">
-            				<a href="#Park">Park</a>
-		    				<a href="#Street">Street</a>
-		    			</div>
-		    	</div>
+				<div class="dropdown">
+					<button onclick="myFunction(3)" class="dropbtn">Outdoor</button>
+					<div id="myDropdown 3" class="dropdown-content 3">
+						<a href="#Park" id = "Parks" onclick="change(this.id)">Park</a>
+						<a href="#WaterSports" id = "WaterSports" onclick="change(this.id)">WaterSports</a>
+					</div>
+				</div>
 
-	    		<!-- Filter -->
-	            <input id="hideOutside-625" type="checkbox" class="shaded hideOutside" name="hideOutside" />
-	                <label class="hide-outside" for="hideOutside-625">Hide selected items</label>
-	        </div>
-	    </div>
-			<div class="search-result-pane">
+				<!-- Filter -->
+				<input id="hideOutside-625" type="checkbox" class="shaded hideOutside" name="hideOutside" />
+				<label class="hide-outside" for="hideOutside-625">Hide selected items</label>
+			</div>
+		</div>
+			<!-- <div class="search-result-pane">
 				    <ul class='attraction clear-after' style="overflow: auto" style="float:left">
 
 				    	<li class="attraction clear-after">
@@ -554,49 +603,69 @@ function initMap() {
 					</ul>
 			</div>
 
-			<div id="floating-panel">
-			    <b>Mode of Travel: </b>
-			    <select id="mode">
-			      <option value="DRIVING">By car</option>
-			      <option value="WALKING">On foot</option>
-			      <option value="BICYCLING">By bicycle</option>
-			      <option value="TRANSIT">By public transport</option>
-			    </select>
-			</div>
-			<div id = "dist" style="font-size: 20px"></div>
-			<div id="googleMap" style="height:500px;margin:0px;border:0px;padding:0px">
-			</div>
+		-->
+
+		<div class="search-result-pane">
+			<ul class='attraction clear-after' id="suggestion_list" style="overflow: auto" style="float:left">
+				{% for item in objects %}
+				<div id = {{item.id}}>
+				<li class="attraction clear-after">
+					<div class="search-item">
+						<span class="attractionDetailsLink clickable-text" data-link="/" data-event-src="browse-results">
+							<div class="search-pic" style="background-image:url({{item.imageurl}})">
+							</div>
+						</span>
+						<div style="height:40px;"> 
+							<span class="attractionTitle" datalink="{{item.url}}">{{item.name}}</span>
+						</div>
+						<div>
+							<button onclick="add_alert({{item.id}})" class="alert">Add</button>
+						</div>
+					</div>
+				</li>
+				</div>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div id = "dist" style="font-size: 20px"></div>
+		<div id="floating-panel">
+			<b>Mode of Travel: </b>
+			<select id="mode" onchange="ReCalRouteMode()">
+				<option value="DRIVING">Driving</option>
+				<option value="WALKING">Walking</option>
+				<option value="BICYCLING">Bicycling</option>
+				<option value="TRANSIT">Transit</option>
+			</select>
+		</div>
+		<div id="googleMap" style="height:500px;margin:0px;border:0px;padding:0px">
+		</div>
 
 
-
-
-
-
-			
-
-        <div class="sort-box hidden">
-            <span class="sort-title">Sort List by:</span>
-            <select id="sortBy">
-                <option value="popularity" selected>Ranking</option>
-                <option value="alphabetical" >Alphabetical</option>
-            </select>
-        </div>
-        </div>
-
-
+		<div class="sort-box hidden">
+			<span class="sort-title">Sort List by:</span>
+			<select id="sortBy">
+				<option value="popularity" selected>Ranking</option>
+				<option value="alphabetical" >Alphabetical</option>
+			</select>
+		</div>
 	</div>
 
 
-	
-	<script src="/static/planner/zepto.min.js"></script>
-	<script src="/static/planner/zepto.dragswap.js"></script>
+</div>
 
-	<script>
-	function removeElement(i) {
-   		// document.getElementById("item"+i).style.display = "none";
-   		document.getElementById("item"+i).remove();
-	}
-	</script>
+
+
+<script src="/static/planner/zepto.min.js"></script>
+<script src="/static/planner/zepto.dragswap.js"></script>
+
+<script>
+	// function removeElement(i) {
+ //   		// document.getElementById("item"+i).style.display = "none";
+ //   		document.getElementById("item"+i).remove();
+ //   	}
+
+   </script>
 
 </body>
 </html>

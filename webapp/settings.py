@@ -55,7 +55,7 @@ ROOT_URLCONF = 'webapp.urls'
 
 # Used by the authentication system for the private-planner application.
 # URL to use if the authentication system requires a user to log in.
-LOGIN_URL = '/planner/search'
+LOGIN_URL = '/planner/login'
 
 # Default URL to redirect to after a user logs in.
 LOGIN_REDIRECT_URL = '/planner/'

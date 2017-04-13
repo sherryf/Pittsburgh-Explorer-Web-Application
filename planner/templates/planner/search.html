@@ -1,4 +1,6 @@
-{% extends "planner/base.html" %}
+{% extends "planner/base_login.html" %}
+
+{% load addcss %}
 
 {% block user-info %}
   <li id="myPlans" data-dropdown-url="/myPlansDropdown" >
@@ -31,7 +33,7 @@
           
   <div class="fh5co-hero">
       <div class="fh5co-overlay"></div>
-      <div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: url(https://lonelyplanetimages.imgix.net/mastheads/GettyImages-476815715_high.jpg?sharp=10&vib=20&w=1200);">
+      <div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: url(http://stentzelphotography.com/wp-content/uploads/2010/09/PittPanorama2.jpg);">
         <div class="desc">
           <div class="container">
             <div class="row">
@@ -39,90 +41,43 @@
                 <div class="tabulation animate-box">
 
                 <!-- Input Table -->
+                
+                
                   <div class="tab-content">
                    <div role="tabpanel" class="tab-pane active" id="flights">
                     <div class="row">
-<!--                       <div class="col-xxs-12 col-xs-12 mt alternate">
-                        <div class="input-field">
-                          <label for="date-end">Interested Event</label>
-                          <input type="text" class="form-control" id="target" placeholder="5:30pm"/>
-                        </div>
-                      </div>          -->             
-                      
-                      <div class="col-xxs-12 col-xs-12 mt alternate">
-                        <div class="input-field">
-                          <label for="date-start">Estimate Date:</label>
-                          <input type="text" class="form-control" id="date-start" placeholder="mm/dd/yyyy"/>
-                        </div>
-                      </div>
-                      <div class="col-xxs-12 col-xs-6 mt alternate">
-                        <div class="input-field">
-                          <label for="date-end">Start Time:</label>
-                          <input type="text" class="form-control" id="time-end" placeholder="9:30am"/>
-                        </div>
-                      </div>
-                      <div class="col-xxs-12 col-xs-6 mt alternate">
-                        <div class="input-field">
-                          <label for="date-end">End Time:</label>
-                          <input type="text" class="form-control" id="time-end" placeholder="5:30pm"/>
-                        </div>
-                      </div>
-
-                      <div class="col-xxs-12 col-xs-6 mt">
-                        <div class="input-field">
-                          <label for="from">Start Street:</label>
-                          <input type="text" class="form-control" id="from-street-1" placeholder="Center"/>
-                        </div>
-                      </div>
-                      <div class="col-xxs-12 col-xs-6 mt">
-                        <div class="input-field">
-                          <label for="from">Start Cross Street:</label>
-                          <input type="text" class="form-control" id="to-street-2" placeholder="Morewood"/>
-                        </div>
-                      </div>
+                     
+                      <form class="form-horizontal" method="post" action="{% url 'searchResult' %}">
+        
 
 
-                      <div class="col-sm-12 mt">
-                        <section>
-                          <label for="class">Budget:</label>
-                          <select class="cs-select cs-skin-border">
-                            <option value="" disabled selected>Bankrupt</option>
-                            <option value="Bankrupt" >Bankrupt</option>
-                            <option value="economy"  >Economy</option>
-                            <option value="first">Salary Day</option>
-                            
-                          </select>
-                        </section>
-                      </div>
+                        {% for field in form.visible_fields %}
+                          <div class="col-xxs-12 col-xs-12 mt alternate">
+                            <div class="input-field">
+                              <label for="date-end">{{field.label}}</label>
+                              <div>{{field|addcss:"form-control"}} </div>
+                            </div>
+                          </div> 
+                        {% endfor %}
 
-                      <div class="col-xxs-12 col-xs-7 mt">
-                        <section>
-                          <label for="class">Extra Interest:</label>
-                          <select class="cs-select cs-skin-border">
-                            <option value="" disabled selected>Art</option>
-                            <option value="1">Science</option>
-                            <option value="2">Sport</option>
-                            <option value="3">Nature</option>
-                            <option value="4">Art</option>
-                          </select>
-                        </section>
-                      </div>
-                      <div class="col-xxs-12 col-xs-6 mt">
-                        <section>
-                          <label for="class">Group Size:</label>
-                          <select class="cs-select cs-skin-border">
-                            <option value="" disabled selected>1</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                          </select>
-                        </section>
-                      </div>
+                        <!-- message ouptut -->   
+                        {% for field in form.visible_fields %}
+                          {% for error in field.errors %}
+                              <p class="message">{{ error }}</p>
+                        {% endfor %}
+                        {% endfor %}
+
+                                      
+
+
                       <div class="col-xs-12">
                        <!--  <input type="submit" class="btn btn-primary btn-block" value="Check out the day Plan"> -->
-                       <a class="btn btn-primary btn-block" href='/planner/itinerary'>Check out the day Plan</a>
+                       <input type="submit" class="btn btn-primary btn-block"></input>
                       </div>
+
+                   {% csrf_token %}
+                 </form>
+
                     </div>
                    </div>
                  
@@ -138,13 +93,25 @@
                     <div class="col-sm-7 col-sm-push-1 col-md-7 col-md-push-1">
                       
                       <h2>Plan Your Unique One-day Trip</h2>
-                      <h3>Around Your Favorite Event</h3>
-                      <span class="price">Right here in Pittsburgh</span>
+                      <h3>Righ here in Pittsburgh</h3>
+                     
                   <!-- <p><a class="btn btn-primary btn-lg" href="#">Get Started</a></p> -->
-                    </div></div></div></div></div></div>
+                    </div>
+
+                    <div class="col-sm-7 col-sm-push-3 col-md-7 col-md-push-1">
+                      
+                      
+                         
+                              <h2 style="color:yellow">{{ Error }}</h2>
+                        
+                    </div>
+
+
+
+
+                    </div></div></div></div></div>
     
     </div>
 {% endblock %}
-  </body>
-</html>
+
 

@@ -428,7 +428,7 @@ table {
 /*Attraction item*/
 .visit-row, .itinerary-daybyday-pane .reserved-row, .itinerary-daybyday-pane .gap-row {
     background-color: #fff;
-    min-height: 165px;
+    min-height: 160px;
     position: relative;
 }
 

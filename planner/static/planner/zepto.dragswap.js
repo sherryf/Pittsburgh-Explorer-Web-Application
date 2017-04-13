@@ -85,6 +85,7 @@
 
         function handleDragLeave(e) {
             $(this).removeClass(settings.overClass); // this / e.target is previous target element.
+            
         }
 
         function handleDragOver(e) {
@@ -132,6 +133,70 @@
                 }
                 $(this).siblings().removeAttr('draggable');
                 $(this).siblings().filter(settings.excludePatt).attr('draggable', true);
+                
+                //******retrieved both id
+                var receiverid = oldEl.id[4];
+                var starterid = newEl.id[4];
+
+                //**** fetch hidden info
+                var oldreceiveraddr = document.getElementById(receiverid).getElementsByTagName("p")[0].innerHTML;
+                // var oldreceiverendtime = document.getElementById(receiverid).getElementsByTagName("p")[1].innerHTML;
+                var replacedaddr = document.getElementById(starterid).getElementsByTagName("p")[0].innerHTML;
+                // var replacedendtime = document.getElementById(starterid).getElementsByTagName("p")[1].innerHTML;
+
+                //**** replace div hidden info
+                document.getElementById(receiverid).getElementsByTagName("p")[0].innerHTML = replacedaddr;
+                // document.getElementById(receiverid).getElementsByTagName("p")[1].innerHTML = replacedendtime;
+                document.getElementById(starterid).getElementsByTagName("p")[0].innerHTML = oldreceiveraddr;
+                // document.getElementById(starterid).getElementsByTagName("p")[1].innerHTML = oldreceiverendtime;
+
+                //**** replace received travel ban time, travel ban url 
+                // get previous add and endtime
+                if(receiverid==1){
+                    var rlastaddr = document.getElementsByClassName("day-title clearfix ")[0].getElementsByTagName("p")[0].innerHTML;
+                } else {
+                    var rlastaddr = document.getElementById(receiverid-1).getElementsByTagName("p")[0].innerHTML;
+                }
+
+                //replace url
+                document.getElementById(receiverid).getElementsByClassName("itinerary-hop-row")[0].getElementsByTagName("a")[0].href = "https://www.google.com/maps?saddr="+rlastaddr+"&daddr="+replacedaddr;
+
+                //// replace beswapped travel ban time, travel ban url and attraction start time
+                // get previous add and endtime
+                if(starterid==1){
+                    var slastaddr = document.getElementsByClassName("day-title clearfix ")[0].getElementsByTagName("p")[0].innerHTML;
+                } else {
+                    var slastaddr = document.getElementById(starterid-1).getElementsByTagName("p")[0].innerHTML;
+                }
+
+                //replace url
+                var oldurl = document.getElementById(starterid).getElementsByClassName("itinerary-hop-row")[0].getElementsByTagName("a")[0].href;
+                document.getElementById(starterid).getElementsByClassName("itinerary-hop-row")[0].getElementsByTagName("a")[0].href = "https://www.google.com/maps?saddr="+slastaddr+"&daddr="+oldreceiveraddr;
+
+                // reset map
+                initMap();
+
+                //update all travel ban time
+
+                // request all addresses from the hidden
+                var itemCount = document.getElementById("itemCount").innerHTML;
+                console.log("youyouyouyouyouyoyu");
+                var startaddr = document.getElementsByClassName("day-title clearfix ")[0].getElementsByTagName("p")[0].innerHTML;
+                var addrlist = [startaddr];
+                for(var i = 0; i<itemCount; i++){
+                    addrlist.push(document.getElementById(i+1).getElementsByTagName("p")[0].innerHTML);
+                }
+                addrlist.push(startaddr);
+
+                var travelMode = document.getElementById('mode').value;
+                for(var i=0;i<addrlist.length-1;i++){
+                    start = addrlist[i];
+                    end = addrlist[i+1];
+                    calcRoute(start, end,i,itemCount,travelMode);
+                }
+
+                updateendtime(itemCount);
+
                 console.log('dropped');
                 settings.dropComplete();
             }
@@ -206,6 +271,7 @@
                     $(item).removeClass(settings.overClass);
                     $(item).removeClass(settings.moveClass);
                 });
+
             }
             // set the items to draggable
             $elem.filter(settings.excludePatt).attr('draggable', true);
@@ -223,8 +289,6 @@
             $this.on('dragleave', settings.element, handleDragLeave);
             $this.on('drop', settings.element, handleDrop);
             $this.on('dragend', settings.element, handleDragEnd);
-
-           
 
         });
     };
@@ -265,12 +329,244 @@ $(function() {
     });
 
 
+function callback(response, status) {
+  if (status == 'OK') {
+    var origins = response.originAddresses;
+    var destinations = response.destinationAddresses;
+
+    for (var i = 0; i < origins.length; i++) {
+      var results = response.rows[i].elements;
+      for (var j = 0; j < results.length; j++) {
+        var element = results[j];
+        
+        var duration = element.duration.text;
+        console.log("******"+duration);
+        
+      }
+    }
+  }
+}
+
+function updateendtime(itemCount){
+    var prevendtime = "";
+    var duration = "";
+    // console.log("itemCount="+itemCount);
+
+    for(var i = 0; i<itemCount; i++){
+        // get prevendtime and duration
+        if(i==0){
+            // console.log(i+1);
+            prevendtime = document.getElementsByClassName("day-title clearfix ")[0].getElementsByTagName("p")[1].innerHTML;
+            // console.log(prevendtime);
+            
+        }else {
+            prevendtime = document.getElementById(i).getElementsByTagName("p")[1].innerHTML;
+            // console.log(prevendtime); //9:30
+
+        }
+        traveltime = document.getElementById(i+1).getElementsByClassName("itinerary-hop-row")[0].getElementsByTagName("span")[1].innerHTML;
+        // console.log(traveltime); //32min
+        duration = document.getElementById(i+1).getElementsByClassName("durationTime")[0].innerHTML; 
+        // console.log(duration); //1:00h
+
+        //update new start time
+        document.getElementById(i+1).getElementsByClassName("time")[0].innerHTML = add(prevendtime, traveltime);
+        //update new end time
+        document.getElementById(i+1).getElementsByTagName("p")[1].innerHTML = add1(prevendtime, traveltime, duration) ;
+    }
+}
+
+function add(prevendtime, traveltime){
+    console.log("kicking into added time");
+    console.log("traveltime = "+traveltime +"prevendtime = "+prevendtime);
+//     //09:30 + 32min
+    var prehour = parseInt(prevendtime.substring(0,2));
+    // console.log(prehour);
+    var premin = parseInt(prevendtime.substring(3));
+    var thour = parseInt(traveltime.substring(0,2));
+    // console.log("traveltime -------"+traveltime);
+    var tmin = parseInt(traveltime.substring(traveltime.length-2,traveltime.length));
+    var newhour = 0;
+    var newmin = 0;
+    var result = "result";
+
+    // console.log("prehour="+prehour+" premin="+premin+" dmin="+tmin);
+
+    if (premin+tmin>=60){
+        newhour = prehour+thour + 1;
+        newmin = premin+tmin-60;
+    } else{
+        newhour = prehour+thour;
+        newmin = premin+tmin;
+    }   
+
+    if(newhour<10){
+        if(newmin<10){
+            result = "0"+newhour+":"+"0"+newmin; 
+        }else{
+             result = "0"+newhour+":"+newmin;            
+        }
+    }else{
+        if(newmin<10){
+            result = newhour+":"+"0"+newmin; 
+        }else{
+             result = newhour+":"+newmin;           
+        }
+        
+    }
+    
+    // console.log(result);
+    return result;
+    }
+
+function add1(prevendtime, traveltime, duration){
+//     //09:30 + 32min + 1:00h
+    // console.log("into add")
+    // console.log(duration);
+    var prehour = parseInt(prevendtime.substring(0,2));
+    var premin = parseInt(prevendtime.substring(3));
+    var tmin = parseInt(traveltime.substring(0,2));
+    var dhour = parseInt(duration.substring(0,1));
+
+    var dmin = parseInt(duration.substring(2,duration.length-1));
+    var newhour = 0;
+    var newmin = 0;
+    var result = "result";
+
+    // console.log("prehour="+prehour+" premin="+premin+" tmin="+tmin + " dhour=" +dhour + " dmin ="+dmin);
+
+    if (premin+tmin+dmin>=60){
+        newhour = prehour+dhour + 1;
+        newmin = premin+tmin+dmin-60;
+    } else{
+        newhour = prehour+dhour;
+        newmin = premin+tmin+dmin;
+    }   
+
+    if(newhour<10){
+        if(newmin<10){
+            result = "0"+newhour+":"+"0"+newmin; 
+        }else{
+             result = "0"+newhour+":"+newmin;            
+        }
+    }else{
+        if(newmin<10){
+            result = newhour+":"+"0"+newmin; 
+        }else{
+             result = newhour+":"+newmin;           
+        }
+    }
+    
+    // console.log(result);
+    return result;
+    }
+
+/// google MAP get duration trial
+    function calcRoute(start, end, i,itemCount, travelMode) {
+
+          // console.log("getting into calcRoute");
+          // console.log("i = "+i + ", itemCount = "+itemCount);
+          var directionsService = new google.maps.DirectionsService();
+          var directionsDisplay = new google.maps.DirectionsRenderer();
+          var request = {
+            origin:start,
+            destination:end,
+            travelMode: travelMode
+          };
+          directionsService.route(request, function(response, status) {
+            if (status == 'OK') {
+                // console.log("status ok");
+              directionsDisplay.setDirections(response);
+              // console.log("correct time = "+response.routes[0].legs[0].duration.text);
+              durationTime = parseInt(response.routes[0].legs[0].duration.value);
+              // console.log(durationTime);
+
+              var hour = 0;
+              var min = 0;
+              if(durationTime>=3600){
+                hour = Math.floor(durationTime/3600);
+                min  = Math.round((durationTime-3600*hour)/60)+30;
+                // console.log(hour+":"+min);
+              }else{
+                min = Math.round(durationTime/60)+30;
+                // console.log("calc min without 30="+Math.round(durationTime/60));
+              }
+              
+              if(min>=60){hour = hour+1;min=min-60;}
+              // var min = parseInt(durationTime.substring(0,durationTime.length-5))+30;
+              // console.log(durationTime + "min = "+min);
+              if(min<10){result = hour+":0"+min;}else{result = hour+":"+min;}
+              if(i==itemCount){
+                // console.log("hitting i = 3");
+                document.getElementById("backHome").getElementsByTagName("span")[1].innerHTML = result;
+              } else {
+                document.getElementById(i+1).getElementsByClassName("itinerary-hop-row")[0].getElementsByTagName("span")[1].innerHTML = result;
+              }
+          };
+        })
+
+        }
 
 
+    function removeElement(i) {
+        console.log("getting in to remove Element");
+        // index name and url
+        var name = document.getElementById("item"+i).getElementsByTagName("a")[1].innerHTML;
+        var url = document.getElementById("item"+i).getElementsByClassName("visit-row-medium")[0].getElementsByTagName("div")[0].style.backgroundImage;
+        var pictureUrl = url.substring(5,url.length-2)
+        var id = document.getElementById("item1").getElementsByClassName("left-col bar overlap")[0].getElementsByTagName("div")[2].innerHTML;
+        var webUrl = document.getElementById("item"+i).getElementsByTagName("a")[1].href;
 
+        $("#suggestion_list").prepend(
+            // "<p> testing testing </p>"
+            
+            "<div id = "+id+">"
+                +"<li class='attraction clear-after'>"
+                    +"<div class='search-item'>"
+                        +"<span class='attractionDetailsLink clickable-text' data-link='/'' data-event-src='browse-results'>"
+                            +"<div class='search-pic' style='background-image:url("+pictureUrl+")'>"
+                            +"</div>"
+                        +"</span>"
+                        +"<div style='height:40px;'>" 
+                            +"<span class='attractionTitle' datalink='"+webUrl+"''>"+name+"</span>"
+                        +"</div>"
+                        +"<div>"
+                            +"<button onclick='add_alert(+"+id+")' class='alert'>Add</button>"
+                        +"</div>"
+                    +"</div>"
+                +"</li>"
+                +"</div>"
+        )
 
+        document.getElementById("item"+i).remove();
+    }
 
+// travel mode change
 
+    function ReCalRouteMode(){
+        var selectedMode = document.getElementById('mode').value;
+        // console.log(selectedMode);
+        // request all addresses from the hidden
+                var itemCount = document.getElementById("itemCount").innerHTML;
+                // console.log("youyouyouyouyouyoyu");
+                var startaddr = document.getElementsByClassName("day-title clearfix ")[0].getElementsByTagName("p")[0].innerHTML;
+                var addrlist = [startaddr];
+
+                for(var i = 0; i<itemCount; i++){
+                    addrlist.push(document.getElementById(i+1).getElementsByTagName("p")[0].innerHTML);
+                }
+                addrlist.push(startaddr);
+
+                for(var i=0;i<addrlist.length-1;i++){
+                    start = addrlist[i];
+                    end = addrlist[i+1];
+                    calcRoute(start, end,i,itemCount,selectedMode);
+                }
+
+                updateendtime(itemCount);
+      
+
+        }
 
 
 

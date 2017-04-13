@@ -1563,6 +1563,7 @@ h2, .h2 {
 
 h3, .h3 {
   font-size: 24px;
+  text-align: right;
 }
 
 h4, .h4 {
@@ -3977,7 +3978,7 @@ input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
   margin-top: 15px;
-  margin-left: 20px;
+  margin-left: 5px;
   margin-right: 25px;
 }
 }
@@ -7330,8 +7331,6 @@ button.close {
   }
 }
 
-/*# sourceMappingURL=bootstrap.css.map */
-
 /*newly added*/
 .tabulation{
   padding:10%;
@@ -7353,7 +7352,7 @@ section{
 }
 
 .fh5co-cover{
-  height:800px;
+  height:1200px;
 }
 
 .message a{
@@ -7369,8 +7368,6 @@ section{
   text-align:center;
   margin-top:10px;
 }
-
-
 
 
 
