@@ -22,7 +22,7 @@ function updateList(response){
     // remove item
     console.log("in updateList");
     var addItem = response[0].fields;
-    // console.log(addItem);
+    // console.log(response[0].pk);
     var elements = document.getElementsByClassName("sortable list")[0];
     var childNum = elements.children.length + 1;
     // from last child //
@@ -115,6 +115,7 @@ function updateList(response){
         "<div class='visit-time'>" +
         "<div class='time' id=" + onlytimeStr +">" +startTime +"</div>" +
         "</div>" +
+        "<div id='id' class='hidden'>"+response[0].pk+"</div>" + 
         "<div class='visit-duration'><div class='edit-duration'>" +
         "<div class='minus reduceTime' onClick='subtractTime(this)' id="+ addZeroStr +">-</div>" +
         "<div class='duration'>" +
