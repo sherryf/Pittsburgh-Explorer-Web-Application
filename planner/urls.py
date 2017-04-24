@@ -1,6 +1,9 @@
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
+from django.contrib import admin
 from planner import views
+
+# admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
@@ -21,4 +24,12 @@ urlpatterns = [
 
     url(r'^confirm-registration/(?P<username>[a-zA-Z0-9_@\+\-]+)/(?P<token>[a-z0-9\-]+)$',
         views.confirm_registration, name='confirm'),
+    url(r'^get_plan/(\d+)$', views.get_plan, name='get_plan'),
+
+
+    # url(r'^admin/', include(admin.site.urls)),
+    # Here we add our Twilio URLs
+    # url(r'^sms/$', 'djtwilio.views.sms'),
+    # url(r'^ring/$', 'djtwilio.views.ring'),
 ]
+

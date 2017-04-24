@@ -6,7 +6,7 @@
 
 		// Close the dropdown if the user clicks outside of it
 		window.onclick = function(event) {
-		  if (!event.target.matches('.dropbtn')) {
+		  if (!event.target.matches('.dropbtn')&!event.target.matches('.dropspan')) {
 
 		    var dropdowns = document.getElementsByClassName("dropdown-content");
 		    var i;
@@ -19,27 +19,10 @@
 		  }
 		}
 
+//overlay()
+function overlay() {
+	el = document.getElementById("overlay");
+	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
 
 
-
-
-
-
-// On click open alert window for adding options
-// function add_alert(){
-// 	alert("I am an alert box!");
-// }
-
-// // Mapping from Xinran
-// function initialize()
-// {
-// var mapProp = {
-//   center:new google.maps.LatLng(40.4406,-79.9959),
-//   zoom:5,
-//   mapTypeId:google.maps.MapTypeId.ROADMAP
-//   };
-// var map=new google.maps.Map(document.getElementById("googleMap")
-//   ,mapProp);
-// }
-
-// google.maps.event.addDomListener(window, 'load', initialize);

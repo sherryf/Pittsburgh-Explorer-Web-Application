@@ -52,31 +52,33 @@ function addTime(ele){
 function subtractTime(ele){
 
 	var i = parseInt(ele.id);
-	console.log("i = "+i);
 	//change duration by 0.5 hr
 	prev_val = document.getElementById("time-duration-"+i).innerHTML;
 	document.getElementById("time-duration-"+i).innerHTML = timeDurationSubtract30(prev_val);
 
-// 	//get item count and loop over
+
+	if(document.getElementById("time-duration-"+i).innerHTML!="0:00h"){
+  	//get item count and loop over
 	itemCount = document.getElementById("itemCount").innerHTML;
-	console.log(itemCount);
+	// console.log(itemCount);
 	j = i+1;
 	while(j<=itemCount){
-		console.log("j = "+j);
+		// console.log("j = "+j);
 		prev_val = document.getElementById(j).getElementsByClassName("time")[0].innerHTML;
 		document.getElementById(j).getElementsByClassName("time")[0].innerHTML= timeAmpmSubtract30(prev_val);
 		j++;
 	}
 
 	prev_val = document.getElementById("homeTime").innerHTML;
-	console.log(prev_val);
+	// console.log(prev_val);
 	comma = prev_val.search(":");
 	time = prev_val.substring(comma-2,comma+3);
 	first = prev_val.substring(0,comma-2);
 	last = prev_val.substring(comma+3,prev_val.length);
 
-	console.log("first = "+first + " last = "+last + "time = "+time);
+	// console.log("first = "+first + " last = "+last + "time = "+time);
 	document.getElementById("homeTime").innerHTML = first+timeAmpmSubtract30(time)+last ;
+	}
 
 }
 
@@ -100,17 +102,28 @@ function timeDurationAdd30(timeString){
 function timeDurationSubtract30(timeString){	
 	var min = parseInt(timeString.substring(timeString.length-3,timeString.length-1));
 	var hour = parseInt(timeString.substring(0,timeString.length-4));
-		if(min==30){
-			min = "00"
-		}else{
-			
-			if(hour!=0){
-				hour = hour - 1;
-				min = min + 30;
+
+		if(!(min==0&hour==0)){
+			if(min==0){
+				hour --;
+				min = 30;
+			} else if (min==30){
+				min = "00"
+			}else{
+				
+				if(hour!=0){
+					hour = hour - 1;
+					min = min + 30;
+				}
+				min = "00";
 			}
-			min = "00";
 		}
-	result = hour+":"+min+"h";	
+
+		if(min==0){
+			result = hour+":00h";
+		}else {
+			result = hour+":"+min+"h";	
+		}
 	return result;
 }
 
@@ -147,7 +160,14 @@ function timeAmpmAdd30(timeString){
 function timeAmpmSubtract30(timeString){
 	var min = parseInt(timeString.substring(timeString.length-2,timeString.length));
 	var hour = parseInt(timeString.substring(0,timeString.length-3));
-		if(min-30<=0){
+
+	//calc
+		if(min==0){
+			console.log("yes");
+			console.log("hour = "+hour+"; min ="+ min);
+			hour --;
+			min = 30;
+		} else if (min-30<=0){
 			hour --;
 			min = min+30;
 		}else{

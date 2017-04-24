@@ -340,7 +340,6 @@ function callback(response, status) {
         var element = results[j];
         
         var duration = element.duration.text;
-        console.log("******"+duration);
         
       }
     }
@@ -377,8 +376,6 @@ function updateendtime(itemCount){
 }
 
 function add(prevendtime, traveltime){
-    console.log("kicking into added time");
-    console.log("traveltime = "+traveltime +"prevendtime = "+prevendtime);
 //     //09:30 + 32min
     var prehour = parseInt(prevendtime.substring(0,2));
     // console.log(prehour);
@@ -477,7 +474,6 @@ function add1(prevendtime, traveltime, duration){
             if (status == 'OK') {
                 // console.log("status ok");
               directionsDisplay.setDirections(response);
-              // console.log("correct time = "+response.routes[0].legs[0].duration.text);
               durationTime = parseInt(response.routes[0].legs[0].duration.value);
               // console.log(durationTime);
 
@@ -509,36 +505,71 @@ function add1(prevendtime, traveltime, duration){
 
 
     function removeElement(i) {
-        console.log("getting in to remove Element");
+        console.log("getting in to remove Element i= "+i);
+        var elements = document.getElementsByClassName("sortable list")[0];
         // index name and url
         var name = document.getElementById("item"+i).getElementsByTagName("a")[1].innerHTML;
         var url = document.getElementById("item"+i).getElementsByClassName("visit-row-medium")[0].getElementsByTagName("div")[0].style.backgroundImage;
         var pictureUrl = url.substring(5,url.length-2)
-        var id = document.getElementById("item1").getElementsByClassName("left-col bar overlap")[0].getElementsByTagName("div")[2].innerHTML;
+        var id = document.getElementById("item"+i).getElementsByClassName("left-col bar overlap")[0].getElementsByTagName("div")[2].innerHTML;
+        var currdivid = document.getElementById("item"+i).parentNode.id;
+        // recalc subtotal
+        var amount = 0;
+        var spend = document.getElementById("item"+i).getElementsByClassName("tags-and-tours")[0].getElementsByTagName("a")[0].innerText;
+        // console.log("spend="+spend);
         var webUrl = document.getElementById("item"+i).getElementsByTagName("a")[1].href;
+        var itemCount = document.getElementById("itemCount").innerHTML;
+        //
+        var searchtitle = document.getElementsByClassName("search-title")[0].getElementsByClassName("title")[0].innerHTML;
+        if(searchtitle.substring(20,searchtitle.length)==document.getElementById("item"+i).getElementsByClassName("tags-attractions")[0].getElementsByTagName("span")[0].innerHTML){
+             // add the deleted element to suggestion bar
+            $("#suggestion_list").prepend(
+                // "<p> testing testing </p>"
 
-        $("#suggestion_list").prepend(
-            // "<p> testing testing </p>"
-            
-            "<div id = "+id+">"
-                +"<li class='attraction clear-after'>"
-                    +"<div class='search-item'>"
-                        +"<span class='attractionDetailsLink clickable-text' data-link='/'' data-event-src='browse-results'>"
-                            +"<div class='search-pic' style='background-image:url("+pictureUrl+")'>"
+                "<div id = "+id+">"
+                    +"<li class='attraction clear-after'>"
+                        +"<div class='search-item'>"
+                            +"<span class='attractionDetailsLink clickable-text' data-link='/'' data-event-src='browse-results'>"
+                                +"<div class='search-pic' style='background-image:url("+pictureUrl+")'>"
+                                +"</div>"
+                            +"</span>"
+                            +"<div style='height:40px;'>"
+                                +"<span class='attractionTitle' datalink='"+webUrl+"''>"+name+"</span>"
                             +"</div>"
-                        +"</span>"
-                        +"<div style='height:40px;'>" 
-                            +"<span class='attractionTitle' datalink='"+webUrl+"''>"+name+"</span>"
+                            +"<div>"
+                                +"<button onclick='add_alert(+"+id+")' class='alert'>Add</button>"
+                            +"</div>"
                         +"</div>"
-                        +"<div>"
-                            +"<button onclick='add_alert(+"+id+")' class='alert'>Add</button>"
-                        +"</div>"
+                    +"</li>"
                     +"</div>"
-                +"</li>"
-                +"</div>"
-        )
+            )
+        }
 
-        document.getElementById("item"+i).remove();
+        //remove entire div
+        document.getElementById("item"+i).parentNode.remove();
+
+        //reassign all div ids for the remainning ones
+        // var divid = document.getElementById("item"+i).parentNode.id;
+        for(var j=i+1; j<=itemCount; j++){
+            console.log("j="+j);
+            document.getElementById("item"+j).parentNode.id = j-1;
+        }
+
+        // reset map
+        initMap();
+
+        //itemCount decreased by one
+        document.getElementById("itemCount").innerHTML = itemCount-1;
+
+        // update cost
+        var prevTotal = document.getElementsByClassName("date TotalMoany")[0].innerHTML;
+        var prevAmount = parseFloat(prevTotal.substring(2,prevTotal.length));
+        if(spend!="Free"){
+            amount = parseInt(spend.substring(8,spend.length));
+        }
+        var newAmount = "$ "+(prevAmount-amount);
+        document.getElementsByClassName("date TotalMoany")[0].innerHTML = newAmount;
+
     }
 
 // travel mode change

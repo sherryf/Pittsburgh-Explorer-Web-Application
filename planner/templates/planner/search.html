@@ -3,30 +3,30 @@
 {% load addcss %}
 
 {% block user-info %}
-  <li id="myPlans" data-dropdown-url="/myPlansDropdown" >
-    <a rel="nofollow" href="javascript:void(0);">
-      <span>My plans</span>
-    </a>
-  </li>
 
-  <li id="userOptions" class="hidden">
-    <a rel="nofollow" href="javascript:void(0);">
-      <span class="name">Profile</span>
-    </a>
-    <div class="hidden">
-      <div id="userDropdown">
-        <ul>
-          <li class="logout-button">Log out</li>
-        </ul>
-      </div>
-    <form id="logoutForm" action="/logout" method="POST"></form>'</div>
-  </li>
+            <li id="myPlans" data-dropdown-url="/myPlansDropdown" >
+              <div class="dropdown-header">
+                <a>
+                <span onclick="myFunction(4)" style="color:white; font-size:1.07em" class="dropspan" >My Plans</span>
+                <div id="myDropdown 4" class="dropdown-content" style="top:30px">
+
+                {% for plan in plans %}
+                  <a class="planname" id=plan.id href="{% url 'get_plan' plan.id %}" style="font-size:15px; float:left; padding:2px">
+                  {{plan.date}}-{{plan.interest}}-{{plan.id}} </a>
+                {% endfor %}
+
+                </div>
+              </div>
+            </li>
+
 
   <li id="userLogin" class="">
-    <a rel="nofollow" class="login-button" href="/planner/login">
-      <span>Log in</span>
-    </a>
-  </li>
+                <a rel="nofollow" class="login-button" href="{% url 'logout' %}">
+                  <span>Log out</span>
+                </a>
+              </li>
+
+
 {% endblock %}
 
   {% block content %}
@@ -106,6 +106,7 @@
                         
                     </div>
 
+                    <script src="/static/planner/main.js" type="text/javascript"></script>
 
 
 

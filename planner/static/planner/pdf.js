@@ -5,10 +5,10 @@ var specialElementHandlers = {
 return true;
 }
 };
-// var img = new Image();s
 
 $(document).ready(function() {
 	$('#action-download').click(function () {
+		console.log(document.getElementsByClassName("sortable list")[0]);
 	var doc = new jsPDF();
 	doc.fromHTML($('#editor').get(0), 15, 15, {
 		'width': 170,
@@ -58,7 +58,8 @@ $(document).ready(function() {
 		var travelTime = document.getElementsByClassName("sortable list")[0].getElementsByTagName("div")[29*i].getElementsByClassName("travelTime")[0].innerHTML;
 		var travelTimeLink = document.getElementsByClassName("sortable list")[0].getElementsByTagName("div")[29*i].getElementsByClassName("directions text-link")[0].getAttribute("href");
 		doc.text("TravelTime: "+travelTime, 145,55 + i * space + 35, {url: travelTimeLink});
-		doc.line(30, 55 + i * space + 34, 200, 55 + i * space + 34);
+		doc.line(30, 55 + i * space + 34, 140, 55 + i * space + 34);
+		doc.text(140, 55 + i * space + 35, ">>");
 
 	}
 

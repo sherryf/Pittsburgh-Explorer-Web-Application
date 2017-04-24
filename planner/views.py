@@ -33,6 +33,9 @@ from random import randint
 import json
 import googlemaps
 import datetime
+import math
+import operator
+
 
 week = ['Monday', 'Tuesday',  'Wednesday', 'Thursday',  'Friday', 'Saturday','Sunday']
 month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
@@ -41,15 +44,20 @@ month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
 @ensure_csrf_cookie
 @login_required
 def home(request):
-	form = SearchForm();
+	form = SearchForm()
+	context = {}
+	curr_user = request.user
+	plans  =  Plan.objects.all().filter(user = curr_user)
+	print(plans)
+	context["plans"] = plans
 	print("get in function home for search.html")
-    
-   	return render(request, 'planner/search.html', {'form':form})
+	return render(request, 'planner/search.html', {'form':form, 'plans':plans})
 
+@ensure_csrf_cookie
 @login_required
 def itinerary(request):
 	print("get in function itinerary for default plan page")
-   	return render(request, 'planner/home.html', {})
+	return render(request, 'planner/home.html', {})
 
 @transaction.atomic
 def register(request):
@@ -134,7 +142,6 @@ def confirm_registration(request, username, token):
 def search(request):
     context = {}
 
-    # Just display the registration form if this is a GET request.
     if request.method == 'GET':
         context['form'] = SearchForm()
         return render(request, 'planner/search.html', context)
@@ -148,32 +155,18 @@ def search(request):
     if not form.is_valid():
         return render(request, 'planner/search.html', context)
 
-    # print(form.cleaned_data['estimateDate'])
-    # print(form.cleaned_data['startTime'])
-    # print(form.cleaned_data['startStreet'])
-    # print(form.cleaned_data['startCrossStreet'])
-    # print(form.cleaned_data['budget'])
-    # print(form.cleaned_data['interest'])
-    # print(form.cleaned_data['groupSize'])
-
-    # At this point, the form data is valid.  Register and login the user.
-    # new_user = User.objects.create_user(username=form.cleaned_data['username'], 
-    #                                     password=form.cleaned_data['password1'],
-    #                                     email=form.cleaned_data['email'],
-    #                                     first_name=form.cleaned_data['first_name'],
-    #                                     last_name=form.cleaned_data['last_name'])
-    # new_user.save()
-
-    # Logs in the new user and redirects to his/her todo list
-    # new_user = authenticate(username=form.cleaned_data['username'],
-    #                         password=form.cleaned_data['password1'])
-    # login(request, new_user)
-
     ## connect with google API
     gmaps = googlemaps.Client(key='AIzaSyAn-6XiiENx0RGqGcI8_BjKzTUUQAiI7T8')
 
     ## get geocode for start place 
-    geocode_result = gmaps.geocode(form.cleaned_data['startStreet'] + " at " +form.cleaned_data['startCrossStreet'])
+    ## Center Street & Morewood Street reformat starting point 
+    # [Street Name A] & [Street Name B], City]
+    geocode_result = gmaps.geocode(form.cleaned_data['startStreet'] + " & " + form.cleaned_data['startCrossStreet'] + ", Pittsburgh")
+    if len(geocode_result) == 0 :
+        context['form'] = SearchForm()
+        context['error'] = "Wrong Address!"
+        return render(request, 'planner/search.html', context)
+
     geocode = geocode_result[0]['geometry']['location']
     context['slat'] = geocode_result[0]['geometry']['location']['lat'] ## get start place lat
     context['slng']= geocode_result[0]['geometry']['location']['lng'] ## get start place lng
@@ -188,7 +181,7 @@ def search(request):
     context['startTime'] = form.cleaned_data['startTime']
 
     ## Combine start location 
-    context['start'] =  form.cleaned_data['startStreet'] + "&" + form.cleaned_data['startCrossStreet']
+    context['start'] =  form.cleaned_data['startStreet'] + " & "+ form.cleaned_data['startCrossStreet']
 
     ## get interest to perform search 
     interest = form.cleaned_data['interest']
@@ -196,54 +189,108 @@ def search(request):
 
     ## get budget constraint
     if form.cleaned_data['budget'] == 'Bankrupt':
-        cost_limit = 0
+        cost_limit = 10
     elif form.cleaned_data['budget'] == 'Economy':
         cost_limit = 20
     elif form.cleaned_data['budget'] == 'Salary Day':
-        cost_limit = 200
+        cost_limit = 1000
 
     ## OperationalError: Could not decode to UTF-8 column 'ShortDesc' with text
     connection.connection.text_factory = lambda x: unicode(x, "utf-8", "ignore")
 
     ## search for all objects that in the interest category and below budget constraint
     Objects = Attractions.objects.all().filter(cost__lte = cost_limit).filter(category = interest)
-    
+
+    ## if no objects satisfy 
     if Objects.count() < 1 :
         context['form'] = form
         context['Error'] = "No activities match your choice!"
         return render(request, 'planner/search.html', context)
 
     ## random select two options for morning and afternoon 
-    # print(Objects.count())
-
-    i = randint(0,Objects.count()-1)
-    j = randint(0,Objects.count()-1) 
+    ## distance of all objects
+    distance_rank = {}
+    for o in Objects:
+        dis = math.pow(o.lat - context['slat'],2) + math.pow(o.lng - context['slng'],2)
+        distance_rank[o.id] = dis
     
-    ## if i == j select again 
-    while i == j:
-        j = randint(0,Objects.count()-1) 
+
+    
+    ## sort list in distance 
+    sorted_distance_rank = sorted(distance_rank.iteritems(), key=operator.itemgetter(1), reverse=True)
+    
+
+    for i in range(0,len(sorted_distance_rank)):
+        distance_rank[sorted_distance_rank[i][0]]= i+1 
 
 
+    object_rank = {}
+
+    for o in Objects:
+        
+        score = 0.5 * distance_rank[o.id]+  0.5 * o.rate
+        object_rank[o.id] =  score
+
+    
+
+    distance_rank = sorted(distance_rank.items(), key=operator.itemgetter(1), reverse=True)
+    
+
+    i = distance_rank[0][0]
+    j = distance_rank[1][0]
+ 
     ## return objects, morning event, afternoon event
-    context['morning_event'] =  Objects[i]
-    context['afternoon_event']= Objects[j]
-    id1 = Objects[i].id
-    id2 = Objects[j].id 
+    context['morning_event'] = Attractions.objects.all().filter(id  = i)[0]
+    context['afternoon_event']= Attractions.objects.all().filter(id  = j)[0]
+    id1 = i
+    id2 = j
     context['objects'] = Attractions.objects.all().filter(cost__lte = cost_limit).filter(category = interest).exclude(id__in = [id1,id2])
 
     ## find lunch 
     lunch  =  Attractions.objects.all().filter(category = "Restaurant").filter(cost__lte = cost_limit)
-    y = randint(0,lunch.count()-1)
-    context['lunch'] =  lunch[y]
+
+    lunch_distance_rank = {}
+
+    for l in lunch:
+        dis_1 = math.pow(l.lat - context['morning_event'].lat,2) + math.pow(l.lng - context['morning_event'].lng,2) 
+        print(l.lat)
+        print(context['morning_event'].lat)
+        print(dis_1)
+        dis_2 = math.pow(l.lat - context['afternoon_event'].lat,2) + math.pow(l.lng - context['afternoon_event'].lng,2)
+        print(dis_2)
+
+        lunch_distance_rank[l.id] = (dis_1 + dis_1)/2
+
+    
+
+     ## sort list in distance 
+    sorted_lunch_distance_rank = sorted(lunch_distance_rank.iteritems(), key=operator.itemgetter(1), reverse=True)
+
+
+    for i in range(0,len(sorted_lunch_distance_rank)):
+        lunch_distance_rank[sorted_lunch_distance_rank[i][0]]= i+1 
+
+
+    lunch_object_rank = {}
+
+    for l in lunch:
+        score = 0.5 * lunch_distance_rank[l.id]+  0.5 * l.rate
+        lunch_object_rank[l.id] =  score
+
+
+    lunch_object_rank = sorted(lunch_object_rank.items(), key=operator.itemgetter(1), reverse=True)
+    ##import pdb; pdb.set_trace();
+
+    y = lunch_object_rank[0][0]
+    context['lunch'] =  Attractions.objects.all().filter(id = y)[0]
 
     ## calculate for travel ban 
 
     ##distance_matrix
-
     time = []
     ## 1 start place to morning event
     start = form.cleaned_data['startStreet'] + " at " +form.cleaned_data['startCrossStreet']
-    destination  = Objects[i].address
+    destination  = context['morning_event'].address
 
     starttime = form.cleaned_data['startTime']
     time.append(str(starttime)[:-3])
@@ -260,12 +307,13 @@ def search(request):
     starttime_str = starttime.time().strftime('%H:%M')
     time.append(starttime_str)
 
+    ## incase missing value
     try:
-        x = float(Objects[i].recommended_length_of_visit)
+        x = float(context['morning_event'].recommended_length_of_visit)
     except ValueError:
         x = 1
 
-    play_time = datetime.timedelta(seconds = x *60)*60
+    play_time = datetime.timedelta(seconds = x*60*60)
     play_time_str =  str(play_time)[:-3]
     time.append(play_time_str)
 
@@ -275,7 +323,7 @@ def search(request):
     time.append(starttime_str)
 
     start = destination
-    destination = "875 Greentree Rd #106, Pittsburgh, PA 15220"
+    destination = context['lunch'].address
 
     print(start)
     print(destination)
@@ -290,7 +338,14 @@ def search(request):
     starttime_str = starttime.time().strftime('%H:%M')
     time.append(starttime_str)
 
-    lunch_time = datetime.timedelta(seconds = 60*60)
+    ## incase missing value
+    try:
+        x = float(context['lunch'].recommended_length_of_visit)
+    except ValueError:
+        x = 1
+
+
+    lunch_time = datetime.timedelta(seconds = x*60*60)
     lunch_time_str = str(lunch_time)[:-3]
     time.append(lunch_time_str)
 
@@ -300,7 +355,7 @@ def search(request):
     time.append(starttime_str)
 
     start = destination
-    destination = Objects[j].address
+    destination = context['afternoon_event'].address
 
     print(start)
     print(destination)
@@ -318,12 +373,12 @@ def search(request):
     time.append(starttime_str)
 
     try:
-        x = float(Objects[j].recommended_length_of_visit) 
+        x = float(context['afternoon_event'].recommended_length_of_visit) 
     except ValueError:
         x = 1
 
-    play_time = datetime.timedelta(seconds = x*60)*60
-    play_time_str =  str(play_time)[:-3]
+    play_time = datetime.timedelta(seconds = x*60*60)
+    play_time_str = str(play_time)[:-3]
     time.append(play_time_str)
 
     endtime = starttime + play_time
@@ -337,6 +392,7 @@ def search(request):
 
     travel_time = gmaps.distance_matrix(start,destination)["rows"][0]["elements"][0]["duration"]['value']
     travel_time = datetime.timedelta(seconds=travel_time)
+    travel_time += datetime.timedelta(seconds=1800)
     travel_time_str =  str(travel_time)[:-3]
     time.append(travel_time_str)
 
@@ -349,23 +405,27 @@ def search(request):
     context["timeline"] = time
 
     ## transform rate
-    if int(Objects[i].rate) !=  Objects[i].rate:
-        context['morning_event_rate'] = str(int(Objects[i].rate))+"-half"
+    if int(context['morning_event'].rate) !=  context['morning_event'].rate:
+        context['morning_event_rate'] = str(int(context['morning_event'].rate))+"-half"
     else:
-        context['morning_event_rate'] = str(int(Objects[i].rate))
+        context['morning_event_rate'] = str(int(context['morning_event'].rate))
 
-    if int(Objects[j].rate) != Objects[j].rate:
-        context['afternoon_event_rate']= str(int(Objects[j].rate))+"-half"
+    if int(context['afternoon_event'].rate) != context['afternoon_event'].rate:
+        context['afternoon_event_rate']= str(int(context['afternoon_event'].rate))+"-half"
     else:
-        context['afternoon_event_rate'] = str(int(Objects[j].rate))
+        context['afternoon_event_rate'] = str(int(context['afternoon_event'].rate))
 
-    if int(lunch[y].rate) != lunch[y].rate:
-        context['lunch_rate'] = str(int(lunch[y].rate))+"-half"
+    if int(context['lunch'].rate) != context['lunch'].rate:
+        context['lunch_rate'] = str(int(context['lunch'].rate))+"-half"
     else:
-        context['lunch_rate'] = str(int(lunch[y].rate))
+        context['lunch_rate'] = str(int(context['lunch'].rate))
 
-    total =  Objects[i].cost+ Objects[j].cost + 10
+    total =  context['morning_event'].cost+ context['afternoon_event'].cost + context['lunch'].cost
     context['total'] = total
+
+    context["budget"] = form.cleaned_data['budget']     
+    context["estimateDate"] = form.cleaned_data['estimateDate']
+    context["plannid"] = ""
 
     return render(request, 'planner/home.html', context)
 
@@ -408,8 +468,6 @@ def get_attrList_json(request):
     response_text = serializers.serialize('json', Attractions.objects.all())
     return HttpResponse(response_text, content_type='application/json')
 
-
-
 def get_list(request,itemid):
     print(itemid)
     print("yes view")
@@ -431,34 +489,352 @@ def get_list(request,itemid):
     return HttpResponse(response_text, content_type='application/json')
 
 
+# @csrf_exempt
 def save(request):
     if request.method == 'POST':
+        output= {}
         #POST goes here . is_ajax is must to capture ajax requests. Beginner's pit.
         if request.is_ajax():
             #Always use get on request.POST. Correct way of querying a QueryDict.
-            mon = request.POST.get('mon')
-            date = request.POST.get('date')
-            dow = request.POST.get("dow")
+            time = request.POST.get("estimateDate")
+            # validate time 
+            try:
+                datetime.datetime.strptime(time, '%B %d, %Y')
+            except ValueError:
+                output["message"] = "Wrong Date" 
+                response_text =  json.dumps(output)
+                return HttpResponse(response_text, content_type='application/json')
+
+            # get all     
+            objects = json.loads(request.POST.get("objects"))
         
-            print(mon)
-            print(date)
-            print(dow)
+            ## validate start time 
+            starttime = request.POST.get("starttime")
+            timeformat = "%H:%M"
+            try:
+                validtime = datetime.datetime.strptime(caminput1, timeformat)
+            except ValueError:
+                output["message"] = "Wrong Time" 
+                response_text =  json.dumps(output)
+                return HttpResponse(response_text, content_type='application/json')
 
-            test = InputTest(month=mon,date = date, dow = dow)
-            test.save();
+            # validate budget
+            budget = request.POST.get("budget")
+            if budget not in ["Bankrupt","Economy","Salary Day"]:
+                output["message"] = "Wrong Budget" 
+                response_text =  json.dumps(output)
+                return HttpResponse(response_text, content_type='application/json')
 
-    #Get goes hereresponse_text
-            output= []
+            # validate interest
+            interest = request.POST.get("interest")
+            if interest not in ["Museums","Parks","Sights","WaterSports","Concerts","Fun&Games","Outdoor","Shopping","Workshops","Tour"]:
+                output["message"] = "Wrong Interest" 
+                response_text =  json.dumps(output)
+                return HttpResponse(response_text, content_type='application/json')
+
+            # validate itemcount 
+            itemcount = int(request.POST.get("itemCount"))
+            if itemcount > 5:
+                output["message"] = "Itemcount greater than 5" 
+                response_text =  json.dumps(output)
+                return HttpResponse(response_text, content_type='application/json')
+            
+            start = request.POST.get("start")
+
+            formated_object = {}
+
+            connection.cursor()
+            connection.connection.text_factory = lambda x: unicode(x, "utf-8", "ignore")
+
+            for i in range(1,itemcount+1):
+                o = json.loads(objects[str(i)])
+                # import pdb; pdb.set_trace();
+                try:
+                    formated_object ["event" + str(i)] = Attractions.objects.all().get(id =int(o["id"]))
+                except DoesNotExist:
+                    output= {}
+                    output["message"] = "Wrong Information" 
+                    response_text =  json.dumps(output)
+                    return HttpResponse(response_text, content_type='application/json')
+
+                if o["duration"][:-1][o["duration"][:-1].index(":")+1:] == "00" :
+                    formated_object["duration" + str(i)] =float(o["duration"][:-1][:o["duration"][:-1].index(":")])
+                else:
+                    formated_object["duration" + str(i)] =float(o["duration"][:-1][:o["duration"][:-1].index(":")] + ".5")
+                   
+            for i in range(itemcount+1, 5 + 1):
+                formated_object["event" + str(i)] = None
+                formated_object["duration" + str(i)] = None
+
+            # import pdb; pdb.set_trace();
+            time = datetime.datetime.strptime(time,'%B %d, %Y').date()
+
+            if request.POST.get("plan_id") == "":
+                new_plan = Plan(date=time, 
+                                start = start,
+                                starttime =  starttime,
+                                interest = interest,
+                                budget = budget,
+                                event1 = formated_object["event1"],
+                                event2 = formated_object["event2"],
+                                event3 = formated_object["event3"],
+                                event4 = formated_object["event4"],
+                                event5 = formated_object["event5"],
+                                duration1 = formated_object["duration1"],
+                                duration2 = formated_object["duration2"],
+                                duration3 = formated_object["duration3"],
+                                duration4 = formated_object["duration4"],
+                                duration5 = formated_object["duration5"])
+                new_plan.save()
+                # import pdb; pdb.set_trace()
+                new_plan.user.add(User.objects.get(username = request.user))
+                new_plan.save()
+
+                ui = UserInfo.objects.get(username = User.objects.get(username = request.user).username)
+                ui.plans.add(new_plan)
+                ui.save()
+            else:
+                try:
+                    obj = Plan.objects.get(id=equest.POST.get("plan_id"))
+                    ## check if the user has right to change a existing plan
+                    if plan_id in UserInfo.objects.get(username = User.objects.get(username = request.user).username).plan:
+                        obj.date = time
+                        obj.start = start
+                        obj.starttime =  starttime,
+                        obj.interest = interest,
+                        obj.budget = budget,
+                        obj.event1 = formated_object["event1"]
+                        obj.event2 = formated_object["event2"]
+                        obj.event3 = formated_object["event3"]
+                        obj.event4 = formated_object["event4"]
+                        obj.event5 = formated_object["event5"]
+                        obj.duration1 = formated_object["duration1"]
+                        obj.duration2 = formated_object["duration2"]
+                        obj.duration3 = formated_object["duration3"]
+                        obj.duration4 = formated_object["duration4"]
+                        obj.duration5 = formated_object["duration5"]
+                        obj.save()
+                    else:
+                        output["error"] = "Wrong Information" 
+                except Model.DoesNotExist:
+                    output["error"] = "Wrong Information" 
+
+            output= {}
             output["message"] = "ok" 
+            output["plan_id"] = new_plan.id
             response_text =  json.dumps(output)
             return HttpResponse(response_text, content_type='application/json')
+    response_text = []
+    return render_to_response(response_text, 'planner/search.html',context_instance = RequestContext(request))
+
+def get_plan(request, planid):
+	print("gettinginto get_plan");
+
+	## OperationalError: Could not decode to UTF-8 column 'ShortDesc' with text
+	connection.cursor()
+	connection.connection.text_factory = lambda x: unicode(x, "utf-8", "ignore")
+
+	context = {}
+	plan = Plan.objects.get(id = planid)
+
+	## connect with google API
+	gmaps = googlemaps.Client(key='AIzaSyAn-6XiiENx0RGqGcI8_BjKzTUUQAiI7T8')
+
+	## get geocode for start place
+	start = plan.start
+	fuhao = start.index("&")
+	startStreet = start[0:fuhao]
+	startCrossStreet = start[(fuhao+1):len(start)]
+	geocode_result = gmaps.geocode(startStreet + " at " +startCrossStreet)
+	geocode = geocode_result[0]['geometry']['location']
+	context['slat'] = geocode_result[0]['geometry']['location']['lat'] ## get start place lat
+	context['slng']= geocode_result[0]['geometry']['location']['lng'] ## get start place lng
+	context['start'] = start
+
+	## split estimateDate to Month, Day, Day of Week
+	datetime_object = plan.date
+	context['mon'] = month[datetime_object.month-1]
+	context['date']= datetime_object.day
+	context['dow'] = week[datetime_object.weekday()]
+
+	## get start time
+	context['startTime'] = plan.starttime
+
+	## get events
+	context['event1'] = plan.event1
+	context['event2'] = plan.event2
+	context['event3'] = plan.event3
+	context['event4'] = plan.event4
+	context['event5'] = plan.event5
+
+	## search for all objects
+	Objects = Attractions.objects.all()
+	## calculate for travel ban
+
+	##distance_matrix
+
+	time = []
+	## 1 start place to morning event
+	destination  = plan.event1.address
+	if destination == "":
+		destination = "875 Greentree Rd #106, Pittsburgh, PA 15220"
+
+	time.append(str(plan.starttime)[:-3])
+
+	print(start)
+	print(destination)
+	travel_time = gmaps.distance_matrix(start,destination)["rows"][0]["elements"][0]["duration"]['value']
+	travel_time = datetime.timedelta(seconds=travel_time+1800)
+	travel_time_str =  str(travel_time)[:-3]
+	time.append(travel_time_str)
+
+
+	## 2 event1 and stay at event1
+	starttime = datetime.datetime.combine(datetime.date(1, 1, 1), plan.starttime)+ travel_time
+	starttime_str = starttime.time().strftime('%H:%M')
+	time.append(starttime_str)
+
+	try:
+		x = float(plan.event1.recommended_length_of_visit)
+	except ValueError:
+		x = 1
+
+	play_time = datetime.timedelta(seconds = x *60)*60
+	play_time_str =  str(play_time)[:-3]
+	time.append(play_time_str)
+
+	## 3 event1 to event2
+	starttime = starttime + play_time
+	starttime_str = starttime.time().strftime('%H:%M')
+	time.append(starttime_str)
+
+	start = destination
+	destination = plan.event2.address
+
+	if destination == "":
+		destination = "875 Greentree Rd #106, Pittsburgh, PA 15220"
+
+	print(start)
+	print(destination)
+
+	travel_time = gmaps.distance_matrix(start,destination)["rows"][0]["elements"][0]["duration"]['value']
+	travel_time = datetime.timedelta(seconds=travel_time+1800)
+	travel_time_str =  str(travel_time)[:-3]
+	time.append(travel_time_str)
+
+	## 4 event2 event and stay
+	starttime = starttime+ travel_time
+	starttime_str = starttime.time().strftime('%H:%M')
+	time.append(starttime_str)
+
+	try:
+		x = float(plan.event3.recommended_length_of_visit)
+	except ValueError:
+		x = 1
+
+	play_time = datetime.timedelta(seconds = 60*60)
+	play_time_str = str(play_time)[:-3]
+	time.append(play_time_str)
+
+	## 5 event 2 to event 3
+	starttime = starttime + play_time
+	starttime_str = starttime.time().strftime('%H:%M')
+	time.append(starttime_str)
+
+	start = destination
+	destination = plan.event3.address
+
+	if destination == "":
+		destination = "875 Greentree Rd #106, Pittsburgh, PA 15220"
+
+	print(start)
+	print(destination)
+
+	travel_time = gmaps.distance_matrix(start,destination)["rows"][0]["elements"][0]["duration"]['value']
+	travel_time = datetime.timedelta(seconds=travel_time+1800)
+	travel_time_str =  str(travel_time)[:-3]
+	time.append(travel_time_str)
+
+	## 6 event3  event to stay
+
+	starttime = starttime+ travel_time
+	starttime_str = starttime.time().strftime('%H:%M')
+	time.append(starttime_str)
+
+	try:
+		x = float(plan.event3.recommended_length_of_visit)
+	except ValueError:
+		x = 1
+
+	play_time = datetime.timedelta(seconds = x*60)*60
+	play_time_str =  str(play_time)[:-3]
+	time.append(play_time_str)
+
+	endtime = starttime + play_time
+	endtime_str = endtime.time().strftime('%H:%M')
+	time.append(endtime_str)
+
+	## 7 return to start point
+	start = destination
+	destination = startStreet+ " at " + startCrossStreet
+
+	travel_time = gmaps.distance_matrix(start,destination)["rows"][0]["elements"][0]["duration"]['value']
+	travel_time = datetime.timedelta(seconds=travel_time)
+	travel_time_str =  str(travel_time)[:-3]
+	time.append(travel_time_str)
+
+	totalend = endtime + travel_time
+	totalend_str = totalend.time().strftime('%H:%M')
+
+	time.append(totalend_str)
+
+	print(time)
+	context["timeline"] = time
+
+	## transform rate
+	if int(plan.event1.rate) !=  plan.event1.rate:
+		context['event1_rate'] = str(int(plan.event1.rate))+"-half"
+	else:
+		context['event1_rate'] = str(int(plan.event1.rate))
+
+	if int(plan.event2.rate) != plan.event2.rate:
+		context['event2_rate']= str(int(plan.event2.rate))+"-half"
+	else:
+		context['event2_rate'] = str(int(plan.event2.rate))
+
+	if int(plan.event3.rate) != plan.event3.rate:
+		context['event3_rate'] = str(int(plan.event3.rate))+"-half"
+	else:
+		context['event3_rate'] = str(int(plan.event3.rate))
+
+	# if int(event4.rate) != event4.rate:
+	#     context['event4_rate'] = str(int(event4.rate))+"-half"
+	# else:
+	#     context['event4_rate'] = str(int(event4.rate))
+
+	# if int(event5.rate) != event5.rate:
+	#     context['event5_rate'] = str(int(event5.rate))+"-half"
+	# else:
+	#     context['event5_rate'] = str(int(event5.rate))
+
+	total =  plan.event1.cost+ plan.event2.cost + plan.event3.cost
+	context['total'] = total
+
+	context["budget"] = plan.budget
+	context["estimateDate"] = plan.date
 
 
 
+	 # send the current users all plan ids back
+	curr_user=request.user
+	plans  =  Plan.objects.all().filter(user = curr_user)
+	context["plans"] = plans
+	context["currplan"] = plan
+	ui = UserInfo.objects.get(username = User.objects.get(username = request.user).username)
+	context["ui"] = ui
 
-
-
-
+	print("get plan function ended")
+	return render(request, 'planner/plan.html', context)
 
 
 

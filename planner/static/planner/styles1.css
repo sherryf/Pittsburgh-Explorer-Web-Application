@@ -59,7 +59,7 @@ td, th {
     font-weight: 400;
     font-size: 14px;
     line-height: 1.428571429;
-    
+
 }
 
 .header-fixer{
@@ -131,7 +131,6 @@ td, th {
 .page-header .page-nav.right li a {
     display: inline-block;
     padding: 0 5px;
-    text-decoration: none;
 }
 
 .page-header a {
@@ -271,7 +270,7 @@ ul.plan-actions li.action {
 
 ul.plan-actions li.action .share, ul.plan-actions li.action .settings, ul.plan-actions li.action .print, ul.plan-actions li.action .notification {
     width: 20px;
-   
+
     vertical-align: middle;
     margin-top: -3px;
     fill: #9b9b9b;
@@ -306,10 +305,11 @@ table {
 /*Timeline*/
 
 .itinerary-main-pane {
-    float: right;
-    width: 55%;
+
+    width: 80%;
     color: #000;
     margin-top: 20px;
+    margin-left: 10%;
     background:#fff;
     padding-right:15px;
 }
@@ -442,7 +442,7 @@ table {
 
 .visit-row .visit-contents, .itinerary-daybyday-pane .reserved-row .visit-contents, .itinerary-daybyday-pane .gap-row .visit-contents, .itinerary-daybyday-pane .visit-row .reserved-contents, .itinerary-daybyday-pane .reserved-row .reserved-contents, .itinerary-daybyday-pane .gap-row .reserved-contents {
     background-color: #fff;
-    min-height: 165px;
+    min-height: 250px;
     position: relative;
 }
 
@@ -520,7 +520,7 @@ table {
  .visit-row .right-col, .itinerary-daybyday-pane .reserved-row .right-col, .itinerary-daybyday-pane .gap-row .right-col {
     padding: 1%;
     float: left;
-    width: 595px;
+    width: 80%;
     margin-left: 145px;
 }
 
@@ -533,7 +533,7 @@ table {
 
 .visit-row .right-col .detail {
     float: right;
-    width: 350px;
+    width: 73%;
     padding:10px;
 }
 
@@ -547,8 +547,8 @@ table {
 
 
  .visit-row .right-col .visit-row-medium .photo {
-    width: 216px;
-    height: 144px;
+    width: 260px;
+    height: 200px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -1025,7 +1025,7 @@ header, section {
     .disabled {
         opacity: 0.5;
     }
-    
+
     .sortable_exclude_dynamic {
         margin: auto;
         padding: 0;
@@ -1043,20 +1043,20 @@ header, section {
         color: #fff;
         text-shadow: 0 1px 1px #ac4e00;
         box-shadow: inset 0 1px 1px rgba(255,255,255,0.7);
-    } 
-        
+    }
+
     .sortable_exclude_dynamic li.correct {
         border:1px solid #000000;
-        background:#cccccc;     
+        background:#cccccc;
             cursor:default;
-    }  
+    }
     .sortable_exclude_dynamic li.empty{
         border:none;
         background:none;
         color:#dcdcdc;
             cursor:default;
     }
-        
+
     .over {
         -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
         box-shadow: 0 5px 10px rgba(0,0,0,0.2);
@@ -1332,15 +1332,6 @@ header, section {
     padding-left: 10%;
 }
 
-### plans
-.itinerary-main-pane-plan {
 
-    width: 80%;
-    color: #000;
-    margin-top: 20px;
-    margin-left:10%;
-    background:#fff;
-    padding-right:15px;
-}
 
 

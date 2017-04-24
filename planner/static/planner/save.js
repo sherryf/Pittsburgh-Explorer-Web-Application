@@ -1,30 +1,67 @@
 
 function save(){
-	//e.preventDefault();
-	var csrftoken = getCookie('csrftoken');
+  // e.preventDefault();
+  var itemCount = parseInt(document.getElementById("itemCount").innerHTML);
+  var csrftoken = getCookie('csrftoken');
+  var estimateDate = document.getElementById("#InputDate").getAttribute("value");
+  var starttime = document.getElementById("#InputTime").getAttribute("value");
+  var interest = document.getElementById("#InputInterest").getAttribute("value");
+  var budget = document.getElementById("#InputBudget").getAttribute("value");
+  var start = document.getElementById("addr-0").getAttribute("value");
+  var plan_id = document.getElementById("daybyday").getAttribute("value");
 
-	var mon =  document.getElementById("#inputMon").innerHTML;
-	var date = document.getElementById("#inputDate").innerHTML;
-	var dow = document.getElementById("#dow").innerHTML;
+  var objects = {}
+  for (var i = 1; i <= itemCount; i++) {
+    var info = {}
+    var duration = document.getElementById(i).getElementsByClassName("durationTime")[0].innerHTML;
+    var divs =  document.getElementById(i).getElementsByTagName("div");
+    for (var j = 0; j < divs.length; j++){
+      if (divs[j].id == "id"){
+        var id =  divs[j].innerText;
+        break;
+      }
+    }
+    info["duration"] = duration
+    info["id"] = id
+    objects[i] = JSON.stringify(info)
+  }
+  
 
-	$.ajax({
+  console.log(objects);
+
+
+  $.ajax({
          url : "/planner/save" ,// the endpoint,commonly same url
-         type : "POST", // http method
-         data : { csrfmiddlewaretoken : csrftoken, 
-         mon : mon,
-         date : date,
-         dow : dow
- 	}, // data sent with the post request
- 	success : function() {
-      console.log("save success"); // another sanity check
- 	},
+         type : "POST", // http itemcounmethod
+         data : { 
+         csrfmiddlewaretoken : csrftoken,
+         estimateDate : estimateDate,
+         itemCount : itemCount,
+         starttime : starttime,
+         interest : interest,
+         budget : budget,
+         objects : JSON.stringify(objects),
+         start : start,
+         plan_id : plan_id
+  }, // data sent with the post request
+  success : function(response) {
+      console.log("save success"); 
+      // update cost
+      console.log(response.plan_id);
+      alert("save success");
+      document.getElementById("daybyday").setAttribute("value",response.plan_id);
+
+      // another sanity check
+  },
 
  // handle a non-successful response
- 	error : function() {
- 	console.log("error"); // provide a bit more info about the error to the console
- 	}
+  error : function() {
+  console.log("error"); 
+  alert("error");// provide a bit more info about the error to the console
+  }
  });
-};
+
+}
 
 
 function getCookie(name) {
