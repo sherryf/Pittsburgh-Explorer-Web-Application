@@ -18,4 +18,6 @@ Django Version 1.10.5<br>
 <p>• Applied Google Map APIs to track the route and provide estimated time cost based on transportation</p>
 <p>• Adopted jsPDF to share and download via email in PDF version </p>
 
+<img width="520" alt="screen shot 2018-01-01 at 1 34 12 pm" src="https://user-images.githubusercontent.com/10855915/34471258-2152ecdc-eef9-11e7-92c9-0535e7a1c55e.png">
+
 <img width="731" alt="screen shot 2018-01-01 at 1 33 48 pm" src="https://user-images.githubusercontent.com/10855915/34471248-fd5f4b18-eef8-11e7-9181-376c9c4aae6b.png">
